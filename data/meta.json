@@ -1,0 +1,18 @@
+{
+  "dataset_version": "1.0.0",
+  "description": "Frozen mock dataset for the Daily Assistant agent bake-off. All relative-time expressions ('today', 'yesterday', 'this week') in the golden tasks resolve against `today`, not the wall-clock date. A harness may override this via task config's date/time context.",
+  "today": "2025-06-18",
+  "current_user_id": "u1",
+  "timezone": "Asia/Kolkata",
+  "company": "Nimbus Labs",
+  "product": "Pulse (analytics SaaS)",
+  "current_sprint": "Sprint 14",
+  "sprint_window": {
+    "Sprint 13": {"start": "2025-05-26", "end": "2025-06-06"},
+    "Sprint 14": {"start": "2025-06-09", "end": "2025-06-20"},
+    "Sprint 15": {"start": "2025-06-23", "end": "2025-07-04"}
+  },
+  "jira_projects": ["PROJ", "INFRA", "BUG"],
+  "github_repos": ["pulse-web", "pulse-api", "pulse-infra"],
+  "slack_channels": ["standup", "engineering", "bugs", "random"]
+}

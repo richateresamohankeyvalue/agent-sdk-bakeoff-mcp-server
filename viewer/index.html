@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulse Data Explorer</title>
+<style>
+  :root {
+    --surface-1: #fcfcfb;
+    --surface-2: #f9f9f7;
+    --surface-3: #ffffff;
+    --text-primary: #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted: #898781;
+    --gridline: #e1e0d9;
+    --border: rgba(11,11,11,0.10);
+    --series-1: #2a78d6; /* blue */
+    --series-2: #1baf7a; /* aqua */
+    --series-3: #eda100; /* yellow */
+    --series-4: #008300; /* green */
+    --series-5: #4a3aa7; /* violet */
+    --series-6: #e34948; /* red */
+    --series-7: #e87ba4; /* magenta */
+    --series-8: #eb6834; /* orange */
+    --ord-1: #86b6ef; --ord-2: #6da7ec; --ord-3: #3987e5; --ord-4: #256abf; --ord-5: #184f95;
+    --status-good: #0ca30c;
+    --status-warning: #fab219;
+    --status-serious: #ec835a;
+    --status-critical: #d03b3b;
+    --status-good-bg: rgba(12,163,12,0.12);
+    --status-warning-bg: rgba(250,178,25,0.16);
+    --status-serious-bg: rgba(236,131,90,0.16);
+    --status-critical-bg: rgba(208,59,59,0.12);
+    --muted-bg: rgba(137,135,129,0.14);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --surface-1: #1a1a19;
+      --surface-2: #0d0d0d;
+      --surface-3: #232322;
+      --text-primary: #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted: #898781;
+      --gridline: #2c2c2a;
+      --border: rgba(255,255,255,0.10);
+      --series-1: #3987e5; --series-2: #199e70; --series-3: #c98500; --series-4: #008300;
+      --series-5: #9085e9; --series-6: #e66767; --series-7: #d55181; --series-8: #d95926;
+      --ord-1: #184f95; --ord-2: #1c5cab; --ord-3: #256abf; --ord-4: #3987e5; --ord-5: #6da7ec;
+      --status-good: #0ca30c; --status-warning: #fab219; --status-serious: #ec835a; --status-critical: #d03b3b;
+      --status-good-bg: rgba(12,163,12,0.18); --status-warning-bg: rgba(250,178,25,0.18);
+      --status-serious-bg: rgba(236,131,90,0.18); --status-critical-bg: rgba(208,59,59,0.20);
+      --muted-bg: rgba(137,135,129,0.18);
+    }
+  }
+  :root[data-theme="light"] {
+    --surface-1: #fcfcfb; --surface-2: #f9f9f7; --surface-3: #ffffff;
+    --text-primary: #0b0b0b; --text-secondary: #52514e; --text-muted: #898781;
+    --gridline: #e1e0d9; --border: rgba(11,11,11,0.10);
+  }
+  :root[data-theme="dark"] {
+    --surface-1: #1a1a19; --surface-2: #0d0d0d; --surface-3: #232322;
+    --text-primary: #ffffff; --text-secondary: #c3c2b7; --text-muted: #898781;
+    --gridline: #2c2c2a; --border: rgba(255,255,255,0.10);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: var(--surface-2);
+    color: var(--text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+  .app { max-width: 1240px; margin: 0 auto; padding: 20px 20px 64px; }
+
+  .topbar {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 14px 18px; background: var(--surface-1); border: 1px solid var(--border);
+    border-radius: 14px; margin-bottom: 16px;
+  }
+  .brand { font-weight: 700; font-size: 16px; display: flex; align-items: center; gap: 8px; }
+  .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--series-1); }
+  .chip {
+    font-size: 12.5px; padding: 4px 10px; border-radius: 999px; background: var(--surface-2);
+    border: 1px solid var(--border); color: var(--text-secondary); white-space: nowrap;
+  }
+  .spacer { flex: 1; }
+  .iconbtn {
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--text-primary);
+    border-radius: 10px; padding: 7px 12px; font-size: 13px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .iconbtn:hover { background: var(--surface-3); }
+  .muted { color: var(--text-muted); font-size: 12px; }
+
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 18px; }
+  @media (max-width: 900px) { .stats { grid-template-columns: repeat(2, 1fr); } }
+  .stat-tile {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px 16px; cursor: pointer; transition: background .12s;
+  }
+  .stat-tile:hover { background: var(--surface-3); }
+  .stat-tile .value { font-size: 30px; font-weight: 700; line-height: 1.1; }
+  .stat-tile .label { font-size: 12.5px; color: var(--text-secondary); margin-top: 4px; }
+  .stat-tile.accent-critical .value { color: var(--status-critical); }
+  .stat-tile.accent-warning .value { color: var(--status-warning); }
+
+  .tabs { display: flex; gap: 6px; margin-bottom: 16px; border-bottom: 1px solid var(--gridline); flex-wrap: wrap; }
+  .tab {
+    border: none; background: none; color: var(--text-secondary); font-size: 14px; font-weight: 600;
+    padding: 9px 14px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  }
+  .tab.active { color: var(--text-primary); border-bottom-color: var(--series-1); }
+  .tab .count { color: var(--text-muted); font-weight: 500; }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .filterbar { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-bottom: 14px; }
+  .filterbar select, .filterbar input[type="text"] {
+    font-family: inherit; font-size: 13px; padding: 7px 10px; border-radius: 9px;
+    border: 1px solid var(--border); background: var(--surface-1); color: var(--text-primary);
+  }
+  .filterbar input[type="text"] { min-width: 220px; }
+  .filterbar label.toggle { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--text-secondary); cursor: pointer; }
+  .result-count { font-size: 12.5px; color: var(--text-muted); margin-left: auto; }
+
+  .card-list { display: flex; flex-direction: column; gap: 8px; }
+  .card {
+    background: var(--surface-1); border: 1px solid var(--border); border-radius: 12px;
+    padding: 12px 14px; cursor: pointer; display: flex; flex-direction: column; gap: 6px;
+  }
+  .card:hover { background: var(--surface-3); }
+  .card-top { display: flex; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .card-id { font-size: 12px; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+  .card-title { font-size: 14px; font-weight: 600; flex: 1; min-width: 160px; }
+  .card-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; font-size: 12.5px; color: var(--text-secondary); }
+  .card-snippet { font-size: 12.5px; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+
+  .badge {
+    display: inline-flex; align-items: center; gap: 4px; font-size: 11.5px; font-weight: 600;
+    padding: 2px 8px; border-radius: 999px; white-space: nowrap;
+  }
+  .badge .dot { width: 6px; height: 6px; border-radius: 50%; }
+  .badge.good { background: var(--status-good-bg); color: var(--status-good); }
+  .badge.warning { background: var(--status-warning-bg); color: #8a6200; }
+  html[data-theme="dark"] .badge.warning, .badge.warning { }
+  @media (prefers-color-scheme: dark) { .badge.warning { color: var(--status-warning); } }
+  :root[data-theme="dark"] .badge.warning { color: var(--status-warning); }
+  .badge.serious { background: var(--status-serious-bg); color: #a1461f; }
+  @media (prefers-color-scheme: dark) { .badge.serious { color: var(--status-serious); } }
+  :root[data-theme="dark"] .badge.serious { color: var(--status-serious); }
+  .badge.critical { background: var(--status-critical-bg); color: var(--status-critical); }
+  .badge.muted { background: var(--muted-bg); color: var(--text-secondary); }
+  .badge.ord1 { background: rgba(134,182,239,.25); color: var(--ord-5); }
+  .badge.ord2 { background: rgba(109,167,236,.25); color: var(--ord-5); }
+  .badge.ord3 { background: rgba(57,135,229,.22); color: var(--ord-5); }
+  .badge.ord4 { background: rgba(37,106,191,.22); color: var(--ord-5); }
+  .badge.ord5 { background: rgba(24,79,149,.22); color: var(--ord-5); }
+
+  .person { display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-secondary); }
+  .avatar {
+    width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    font-size: 9.5px; font-weight: 700; color: #fff; flex-shrink: 0;
+  }
+
+  .overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.35); display: flex; justify-content: flex-end; z-index: 50;
+  }
+  .overlay.hidden { display: none; }
+  .drawer {
+    width: min(560px, 94vw); height: 100%; background: var(--surface-1); overflow-y: auto;
+    padding: 22px; box-shadow: -8px 0 24px rgba(0,0,0,0.18); animation: slidein .15s ease-out;
+  }
+  @keyframes slidein { from { transform: translateX(24px); opacity: .4; } to { transform: translateX(0); opacity: 1; } }
+  .drawer h2 { font-size: 18px; margin: 0 0 4px; }
+  .drawer .close { float: right; }
+  .drawer-section { margin-top: 18px; }
+  .drawer-section h3 { font-size: 12.5px; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin: 0 0 8px; }
+  .drawer p.body-text { font-size: 13.5px; line-height: 1.5; color: var(--text-secondary); white-space: pre-wrap; }
+  .comment { border-left: 2px solid var(--gridline); padding-left: 10px; margin-bottom: 10px; }
+  .comment .who { font-size: 12.5px; font-weight: 600; }
+  .comment .when { font-size: 11px; color: var(--text-muted); }
+  .comment .txt { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+  .related-item {
+    display: block; font-size: 13px; padding: 8px 10px; border: 1px solid var(--border); border-radius: 9px;
+    margin-bottom: 6px; cursor: pointer; background: var(--surface-2);
+  }
+  .related-item:hover { background: var(--surface-3); }
+  .related-item .rel-meta { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  .empty-note { font-size: 12.5px; color: var(--text-muted); font-style: italic; }
+
+  .day-group { margin-bottom: 18px; }
+  .day-heading {
+    font-size: 12.5px; font-weight: 700; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .03em;
+    padding: 6px 0; border-bottom: 1px solid var(--gridline); margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
+  }
+  .day-heading.today { color: var(--series-1); }
+  .conflict-note { color: var(--status-serious); font-size: 11.5px; font-weight: 600; }
+
+  table.simple { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  table.simple th { text-align: left; color: var(--text-muted); font-weight: 600; padding: 6px 8px; border-bottom: 1px solid var(--gridline); }
+  table.simple td { padding: 6px 8px; border-bottom: 1px solid var(--gridline); color: var(--text-secondary); font-variant-numeric: tabular-nums; }
+  .table-scroll { overflow-x: auto; }
+
+  .pending-banner {
+    display: none; align-items: center; gap: 10px; background: var(--status-warning-bg); border: 1px solid var(--status-warning);
+    border-radius: 10px; padding: 8px 12px; font-size: 12.5px; margin-bottom: 14px;
+  }
+  .pending-banner.show { display: flex; }
+  .thread-msg { border: 1px solid var(--border); border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; background: var(--surface-2); }
+  .thread-msg .hdr { display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div class="brand"><span class="dot"></span> Pulse Data Explorer</div>
+    <span class="chip" id="todayChip">today: —</span>
+    <span class="chip" id="userChip">user: —</span>
+    <div class="spacer"></div>
+    <span class="muted" id="lastUpdated"></span>
+    <button class="iconbtn" id="themeToggle" title="Toggle theme">🌓 Theme</button>
+    <button class="iconbtn" id="refreshBtn">⟳ Refresh data</button>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab active" data-tab="overview">Overview</button>
+    <button class="tab" data-tab="jira">Jira <span class="count" id="cnt-jira"></span></button>
+    <button class="tab" data-tab="github">GitHub <span class="count" id="cnt-github"></span></button>
+    <button class="tab" data-tab="slack">Slack <span class="count" id="cnt-slack"></span></button>
+    <button class="tab" data-tab="gmail">Gmail <span class="count" id="cnt-gmail"></span></button>
+    <button class="tab" data-tab="calendar">Calendar <span class="count" id="cnt-calendar"></span></button>
+  </nav>
+
+  <main id="panels">
+    <section class="panel active" id="panel-overview"></section>
+    <section class="panel" id="panel-jira"></section>
+    <section class="panel" id="panel-github"></section>
+    <section class="panel" id="panel-slack"></section>
+    <section class="panel" id="panel-gmail"></section>
+    <section class="panel" id="panel-calendar"></section>
+  </main>
+</div>
+
+<div class="overlay hidden" id="overlay">
+  <div class="drawer" id="drawer"></div>
+</div>
+
+<script>
+"use strict";
+
+/* ---------------- data loading ---------------- */
+
+const DATA_BASE = "../data";
+let DB = null; // { meta, users, jira, prs, commits, slackChannels, slackConvos, gmail, calendar }
+let currentTab = "overview";
+const filterState = { jira: {}, github: {}, slack: {}, gmail: {}, calendar: {} };
+
+async function fetchJSON(path) {
+  const res = await fetch(`${DATA_BASE}/${path}?t=${Date.now()}`);
+  if (!res.ok) throw new Error(`Failed to fetch ${path}: ${res.status}`);
+  return res.json();
+}
+
+async function loadAll() {
+  const [meta, users, jira, prs, commits, slack, gmail, calendar] = await Promise.all([
+    fetchJSON("meta.json"), fetchJSON("users.json"), fetchJSON("jira_tickets.json"),
+    fetchJSON("github_prs.json"), fetchJSON("github_commits.json"), fetchJSON("slack_data.json"),
+    fetchJSON("gmail_threads.json"), fetchJSON("calendar_events.json"),
+  ]);
+  DB = {
+    meta, users, jira, prs, commits,
+    slackChannels: slack.channels, slackConvos: slack.conversations,
+    gmail, calendar,
+    usersByName: Object.fromEntries(users.map(u => [u.username, u])),
+  };
+  document.getElementById("todayChip").textContent = `today: ${meta.today}`;
+  const cur = users.find(u => u.id === meta.current_user_id);
+  document.getElementById("userChip").textContent = `user: ${cur ? cur.name : "?"}`;
+  document.getElementById("lastUpdated").textContent = "loaded " + new Date().toLocaleTimeString();
+  render();
+}
+
+/* ---------------- helpers ---------------- */
+
+const SLOT_COLORS = ["series-1","series-2","series-3","series-4","series-5","series-6","series-7","series-8"];
+function personColor(username) {
+  if (!DB) return "var(--series-1)";
+  const idx = DB.users.findIndex(u => u.username === username);
+  const slot = SLOT_COLORS[((idx < 0 ? 0 : idx)) % SLOT_COLORS.length];
+  return `var(--${slot})`;
+}
+function initials(nameOrUsername) {
+  const u = DB && DB.usersByName[nameOrUsername];
+  const name = u ? u.name : nameOrUsername;
+  return name.split(/[.\s]/).filter(Boolean).slice(0,2).map(s => s[0].toUpperCase()).join("");
+}
+function personChip(username) {
+  if (!username) return `<span class="muted">unassigned</span>`;
+  const u = DB.usersByName[username];
+  const name = u ? u.name : username;
+  return `<span class="person"><span class="avatar" style="background:${personColor(username)}">${initials(username)}</span>${escapeHtml(name)}</span>`;
+}
+function escapeHtml(s) {
+  return String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function fmtDateTime(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  return d.toLocaleString(undefined, { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
+}
+function fmtDate(iso) {
+  if (!iso) return "—";
+  const d = new Date(iso);
+  return d.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+}
+function dayKey(iso) { return iso.slice(0, 10); }
+
+const JIRA_STATUS_ORD = { "Backlog": "ord1", "To Do": "ord2", "In Progress": "ord3", "In Review": "ord4", "Done": "ord5" };
+function jiraStatusBadge(status) {
+  if (status === "Done") return `<span class="badge good"><span class="dot" style="background:var(--status-good)"></span>${status}</span>`;
+  const cls = JIRA_STATUS_ORD[status] || "muted";
+  return `<span class="badge ${cls}">${status}</span>`;
+}
+const PRIORITY_MAP = { "Low": "good", "Medium": "warning", "High": "serious", "Critical": "critical" };
+function priorityBadge(p) {
+  const cls = PRIORITY_MAP[p] || "muted";
+  return `<span class="badge ${cls}"><span class="dot" style="background:currentColor"></span>${p}</span>`;
+}
+function prStatusBadge(pr) {
+  if (pr.status === "merged") return `<span class="badge good">Merged</span>`;
+  if (pr.status === "closed") return `<span class="badge muted">Closed</span>`;
+  const rs = pr.review_state;
+  if (rs === "approved") return `<span class="badge good">Open · Approved</span>`;
+  if (rs === "changes_requested") return `<span class="badge serious">Open · Changes requested</span>`;
+  if (rs === "draft") return `<span class="badge muted">Draft</span>`;
+  return `<span class="badge warning">Open · Awaiting review</span>`;
+}
+function ciBadge(ci) {
+  return ci === "passing"
+    ? `<span class="badge good">CI passing</span>`
+    : `<span class="badge critical">CI failing</span>`;
+}
+
+/* ---------------- cross-source linking (mirrors server/data_store.py) ---------------- */
+
+function prsForTicket(ticketId) {
+  const id = ticketId.toUpperCase();
+  const byRef = DB.prs.filter(p => (p.linked_jira_ticket || "").toUpperCase() === id);
+  const matchedNums = new Set(
+    DB.commits.filter(c => c.pr_number != null && c.message.toUpperCase().startsWith(id + ":"))
+      .map(c => c.repo + "#" + c.pr_number)
+  );
+  const byCommit = DB.prs.filter(p => matchedNums.has(p.repo + "#" + p.number));
+  const seen = new Set(); const out = [];
+  for (const p of [...byRef, ...byCommit]) if (!seen.has(p.id)) { seen.add(p.id); out.push(p); }
+  return out;
+}
+function allSlackMessages() {
+  const out = [];
+  for (const conv of DB.slackConvos) for (const m of conv.messages)
+    out.push({ ...m, channel: conv.channel, type: conv.type, participants: conv.participants, conv });
+  return out;
+}
+function textMentions(text, needle) { return text.toLowerCase().includes(needle.toLowerCase()); }
+function relatedSlackFor(needle) {
+  return allSlackMessages().filter(m => textMentions(m.text, needle)).sort((a,b) => a.ts.localeCompare(b.ts));
+}
+function relatedGmailFor(needle) {
+  return DB.gmail.filter(t => textMentions(t.subject, needle) || t.messages.some(m => textMentions(m.body, needle)));
+}
+function commitsForPR(pr) {
+  return DB.commits.filter(c => c.repo === pr.repo && c.pr_number === pr.number)
+    .sort((a,b) => a.date.localeCompare(b.date));
+}
+
+/* ---------------- tabs ---------------- */
+
+document.getElementById("tabs").addEventListener("click", e => {
+  const btn = e.target.closest(".tab");
+  if (!btn) return;
+  currentTab = btn.dataset.tab;
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === btn));
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.getElementById("panel-" + currentTab).classList.add("active");
+  render();
+});
+
+document.getElementById("refreshBtn").addEventListener("click", () => loadAll().catch(showLoadError));
+document.getElementById("themeToggle").addEventListener("click", () => {
+  const root = document.documentElement;
+  const cur = root.getAttribute("data-theme");
+  const next = cur === "dark" ? "light" : (cur === "light" ? null : (matchMedia("(prefers-color-scheme: dark)").matches ? "light" : "dark"));
+  if (next) root.setAttribute("data-theme", next); else root.removeAttribute("data-theme");
+});
+
+function showLoadError(err) {
+  document.getElementById("lastUpdated").textContent = "load failed — is this served over http(s)? see README";
+  console.error(err);
+}
+
+/* auto-poll so newly-added data shows up without a manual click during a demo */
+setInterval(() => loadAll().catch(() => {}), 15000);
+
+/* ---------------- drawer ---------------- */
+
+function openDrawer(html) {
+  document.getElementById("drawer").innerHTML = html;
+  document.getElementById("overlay").classList.remove("hidden");
+}
+document.getElementById("overlay").addEventListener("click", e => {
+  if (e.target.id === "overlay") document.getElementById("overlay").classList.add("hidden");
+});
+document.addEventListener("keydown", e => {
+  if (e.key === "Escape") document.getElementById("overlay").classList.add("hidden");
+});
+function closeDrawerBtn() { return `<button class="iconbtn close" onclick="document.getElementById('overlay').classList.add('hidden')">✕ Close</button>`; }
+
+window.openTicket = function (id) {
+  const t = DB.jira.find(x => x.id === id);
+  if (!t) return;
+  const linkedPRs = prsForTicket(t.id);
+  const slackHits = relatedSlackFor(t.id).slice(0, 6);
+  const gmailHits = relatedGmailFor(t.id).slice(0, 6);
+  openDrawer(`
+    ${closeDrawerBtn()}
+    <h2>${t.id} · ${escapeHtml(t.title)}</h2>
+    <div class="card-row">${jiraStatusBadge(t.status)}${priorityBadge(t.priority)}<span class="badge muted">${t.project}</span><span class="badge muted">${t.type}</span></div>
+    <div class="card-row" style="margin-top:8px">${personChip(t.assignee)}<span class="muted">reported by</span>${personChip(t.reporter)}</div>
+    <p class="body-text">${escapeHtml(t.description)}</p>
+    <div class="card-row">
+      ${t.sprint ? `<span class="chip">${t.sprint}</span>` : ""}
+      ${t.due_date ? `<span class="chip">due ${fmtDate(t.due_date)}</span>` : ""}
+      <span class="chip">updated ${fmtDateTime(t.updated)}</span>
+    </div>
+    ${t.completed_date ? `<div class="card-row">
+      <span class="chip">Completed ${fmtDate(t.completed_date)}</span>
+      ${t.due_date ? (t.completed_date > t.due_date
+        ? `<span class="badge serious">Late</span>`
+        : `<span class="badge good">On time</span>`) : ""}
+    </div>` : ""}
+    <div class="drawer-section"><h3>Linked GitHub PRs</h3>
+      ${linkedPRs.length ? linkedPRs.map(p => relatedPRItem(p)).join("") : `<div class="empty-note">No linked PR found for this ticket.</div>`}
+    </div>
+    <div class="drawer-section"><h3>Linked tickets</h3>
+      ${(t.linked_tickets||[]).length ? t.linked_tickets.map(id2 => `<div class="related-item" onclick="openTicket('${id2}')">${id2}${DB.jira.find(x=>x.id===id2) ? " · " + escapeHtml(DB.jira.find(x=>x.id===id2).title) : ""}</div>`).join("") : `<div class="empty-note">None.</div>`}
+    </div>
+    <div class="drawer-section"><h3>Comments (${(t.comments||[]).length})</h3>
+      ${(t.comments||[]).map(c => `<div class="comment"><div class="who">${escapeHtml(DB.usersByName[c.author]?.name || c.author)}</div><div class="when">${fmtDateTime(c.created)}</div><div class="txt">${escapeHtml(c.body)}</div></div>`).join("") || `<div class="empty-note">No comments.</div>`}
+    </div>
+    <div class="drawer-section"><h3>Status history</h3>
+      ${(t.status_history||[]).map(h => `<div class="comment"><div class="txt">${h.from} → ${h.to} <span class="muted">by ${DB.usersByName[h.by]?.name || h.by}</span></div><div class="when">${fmtDateTime(h.at)}</div></div>`).join("") || `<div class="empty-note">No history recorded.</div>`}
+    </div>
+    <div class="drawer-section"><h3>Mentioned in Slack</h3>
+      ${slackHits.length ? slackHits.map(m => relatedSlackItem(m)).join("") : `<div class="empty-note">No mentions found.</div>`}
+    </div>
+    <div class="drawer-section"><h3>Mentioned in Gmail</h3>
+      ${gmailHits.length ? gmailHits.map(th => relatedGmailItem(th)).join("") : `<div class="empty-note">No related email threads.</div>`}
+    </div>
+  `);
+};
+
+window.openPR = function (prId) {
+  const p = DB.prs.find(x => x.id === prId);
+  if (!p) return;
+  const ticket = p.linked_jira_ticket ? DB.jira.find(t => t.id === p.linked_jira_ticket) : null;
+  const commits = commitsForPR(p);
+  openDrawer(`
+    ${closeDrawerBtn()}
+    <h2>${p.id}</h2>
+    <div class="card-title" style="margin-top:-6px">${escapeHtml(p.title)}</div>
+    <div class="card-row" style="margin-top:8px">${prStatusBadge(p)}${ciBadge(p.ci_status)}</div>
+    <div class="card-row" style="margin-top:6px">${personChip(p.author)} <span class="muted">reviewers:</span> ${(p.reviewers||[]).map(personChip).join(" ") || "<span class='muted'>none assigned</span>"}</div>
+    <div class="card-row"><span class="chip">+${p.diff_stats.additions} / -${p.diff_stats.deletions}</span><span class="chip">${p.diff_stats.files_changed} files</span><span class="chip">branch: ${p.branch}</span></div>
+    <div class="drawer-section"><h3>Linked Jira ticket</h3>
+      ${ticket ? relatedTicketItem(ticket) : `<div class="empty-note">No linked Jira ticket.</div>`}
+    </div>
+    <div class="drawer-section"><h3>Review comments</h3>
+      ${(p.review_comments||[]).map(c => `<div class="comment"><div class="who">${escapeHtml(DB.usersByName[c.author]?.name || c.author)} <span class="muted">· ${c.state}</span></div><div class="when">${fmtDateTime(c.created_at)}</div><div class="txt">${escapeHtml(c.body)}</div></div>`).join("") || `<div class="empty-note">No review comments yet.</div>`}
+    </div>
+    <div class="drawer-section"><h3>Commits (${commits.length})</h3>
+      ${commits.map(c => `<div class="comment"><div class="who">${escapeHtml(c.message)}</div><div class="when">${personChip(c.author)} · ${fmtDateTime(c.date)} · ${c.sha}</div></div>`).join("") || `<div class="empty-note">No commits recorded in the last 7 days for this PR.</div>`}
+    </div>
+  `);
+};
+
+window.openTicket = window.openTicket;
+window.openThread = function (threadId) {
+  const t = DB.gmail.find(x => x.id === threadId);
+  if (!t) return;
+  openDrawer(`
+    ${closeDrawerBtn()}
+    <h2>${escapeHtml(t.subject)}</h2>
+    <div class="card-row">${(t.labels||[]).map(l => `<span class="chip">${l}</span>`).join("")}${t.unread ? `<span class="badge warning">Unread</span>` : ""}${t.flagged ? `<span class="badge serious">🚩 Flagged</span>` : ""}</div>
+    <div class="drawer-section"><h3>Messages (${t.messages.length})</h3>
+      ${t.messages.map(m => `<div class="thread-msg"><div class="hdr"><span>${escapeHtml(m.from)} → ${escapeHtml((m.to||[]).join(", "))}</span><span>${fmtDateTime(m.date)}</span></div><div>${escapeHtml(m.body)}</div></div>`).join("")}
+    </div>
+  `);
+};
+window.openConvo = function (convId) {
+  const c = DB.slackConvos.find(x => x.id === convId);
+  if (!c) return;
+  const label = c.type === "dm" ? "DM: " + c.participants.map(u => DB.usersByName[u]?.name || u).join(" ↔ ") : "#" + c.channel;
+  openDrawer(`
+    ${closeDrawerBtn()}
+    <h2>${escapeHtml(label)}</h2>
+    <div class="drawer-section"><h3>Messages (${c.messages.length})</h3>
+      ${c.messages.map(m => `<div class="thread-msg"><div class="hdr">${personChip(m.user)}<span>${fmtDateTime(m.ts)}</span></div><div>${escapeHtml(m.text)}</div></div>`).join("")}
+    </div>
+  `);
+};
+window.openEvent = function (evId) {
+  const e = DB.calendar.find(x => x.id === evId);
+  if (!e) return;
+  openDrawer(`
+    ${closeDrawerBtn()}
+    <h2>${escapeHtml(e.title)}</h2>
+    <div class="card-row"><span class="badge muted">${e.type}</span>${e.all_day ? `<span class="chip">all day</span>` : `<span class="chip">${fmtDateTime(e.start)} – ${fmtDateTime(e.end)}</span>`}</div>
+    <div class="drawer-section"><h3>Participants</h3><div class="card-row">${e.participants.map(personChip).join("")}</div></div>
+    <div class="drawer-section"><h3>Description</h3><p class="body-text">${escapeHtml(e.description || "—")}</p></div>
+  `);
+};
+
+function relatedPRItem(p) {
+  return `<div class="related-item" onclick="openPR('${p.id}')"><b>${p.id}</b> ${escapeHtml(p.title)}<div class="rel-meta">${prStatusBadge(p)} ${ciBadge(p.ci_status)}</div></div>`;
+}
+function relatedTicketItem(t) {
+  return `<div class="related-item" onclick="openTicket('${t.id}')"><b>${t.id}</b> ${escapeHtml(t.title)}<div class="rel-meta">${jiraStatusBadge(t.status)}</div></div>`;
+}
+function relatedSlackItem(m) {
+  const where = m.type === "dm" ? "DM" : "#" + m.channel;
+  return `<div class="related-item" onclick="openConvo('${m.conv.id}')"><b>${where}</b> · ${escapeHtml(DB.usersByName[m.user]?.name || m.user)}<div class="rel-meta">${escapeHtml(m.text.slice(0,90))}${m.text.length>90?"…":""} · ${fmtDateTime(m.ts)}</div></div>`;
+}
+function relatedGmailItem(t) {
+  return `<div class="related-item" onclick="openThread('${t.id}')"><b>${escapeHtml(t.subject)}</b><div class="rel-meta">${fmtDateTime(t.date)}${t.unread ? " · unread" : ""}</div></div>`;
+}
+
+/* ---------------- render: dispatcher ---------------- */
+
+function render() {
+  if (!DB) return;
+  renderStats();
+  renderCounts();
+  if (currentTab === "overview") renderOverview();
+  if (currentTab === "jira") renderJira();
+  if (currentTab === "github") renderGithub();
+  if (currentTab === "slack") renderSlack();
+  if (currentTab === "gmail") renderGmail();
+  if (currentTab === "calendar") renderCalendar();
+}
+
+function renderCounts() {
+  document.getElementById("cnt-jira").textContent = `(${DB.jira.length})`;
+  document.getElementById("cnt-github").textContent = `(${DB.prs.length})`;
+  document.getElementById("cnt-slack").textContent = `(${DB.slackConvos.length})`;
+  document.getElementById("cnt-gmail").textContent = `(${DB.gmail.length})`;
+  document.getElementById("cnt-calendar").textContent = `(${DB.calendar.length})`;
+}
+
+/* ---------------- stat tiles ---------------- */
+
+function statTile(value, label, accentClass, onClick) {
+  return `<div class="stat-tile ${accentClass||""}" ${onClick ? `onclick="${onClick}"` : ""}>
+    <div class="value">${value}</div><div class="label">${label}</div>
+  </div>`;
+}
+
+function renderStats() {
+  const me = DB.users.find(u => u.id === DB.meta.current_user_id).username;
+  const myOpenTickets = DB.jira.filter(t => t.assignee === me && !["Done"].includes(t.status)).length;
+  const prsAwaitingMyReview = DB.prs.filter(p => p.status === "open" && (p.reviewers||[]).includes(me)).length;
+  const criticalOpen = DB.jira.filter(t => t.priority === "Critical" && t.status !== "Done").length;
+  const unreadEmails = DB.gmail.filter(t => t.unread).length;
+  const today = DB.meta.today;
+  const meetingsToday = DB.calendar.filter(e => dayKey(e.start) === today && !e.all_day).length;
+
+  document.getElementById("stats").innerHTML = [
+    statTile(myOpenTickets, "My open Jira tickets", "", "switchTab('jira')"),
+    statTile(prsAwaitingMyReview, "PRs awaiting my review", prsAwaitingMyReview ? "accent-warning" : "", "switchTab('github')"),
+    statTile(criticalOpen, "Critical items open", criticalOpen ? "accent-critical" : "", "switchTab('jira')"),
+    statTile(unreadEmails, "Unread emails", "", "switchTab('gmail')"),
+    statTile(meetingsToday, "Meetings today", "", "switchTab('calendar')"),
+  ].join("");
+}
+window.switchTab = function (tab) {
+  document.querySelector(`.tab[data-tab="${tab}"]`).click();
+};
+
+/* ---------------- overview ---------------- */
+
+function renderOverview() {
+  const today = DB.meta.today;
+  const todaysEvents = DB.calendar.filter(e => dayKey(e.start) === today).sort((a,b)=>a.start.localeCompare(b.start));
+  const critical = DB.jira.filter(t => (t.priority === "Critical" || t.priority === "High") && t.status !== "Done")
+    .sort((a,b) => (a.priority === b.priority ? 0 : a.priority === "Critical" ? -1 : 1));
+  const failingCI = DB.prs.filter(p => p.status === "open" && p.ci_status === "failing");
+  const urgentUnread = DB.gmail.filter(t => t.unread && t.labels.includes("urgent"));
+
+  document.getElementById("panel-overview").innerHTML = `
+    <div class="drawer-section" style="margin-top:0">
+      <h3>Today (${escapeHtml(today)})</h3>
+      <div class="card-list">
+        ${todaysEvents.map(e => `<div class="card" onclick="openEvent('${e.id}')">
+          <div class="card-top"><span class="card-id">${e.all_day ? "all day" : new Date(e.start).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"})}</span><span class="card-title">${escapeHtml(e.title)}</span><span class="badge muted">${e.type}</span></div>
+          <div class="card-row">${e.participants.slice(0,5).map(personChip).join("")}</div>
+        </div>`).join("") || `<div class="empty-note">Nothing on the calendar today.</div>`}
+      </div>
+    </div>
+    <div class="drawer-section">
+      <h3>Needs attention — high/critical priority, still open</h3>
+      <div class="card-list">
+        ${critical.map(t => jiraCard(t)).join("") || `<div class="empty-note">Nothing critical or high priority open. 🎉</div>`}
+      </div>
+    </div>
+    <div class="drawer-section">
+      <h3>PRs with failing CI</h3>
+      <div class="card-list">${failingCI.map(p => prCard(p)).join("") || `<div class="empty-note">All open PRs are green.</div>`}</div>
+    </div>
+    <div class="drawer-section">
+      <h3>Unread &amp; urgent email</h3>
+      <div class="card-list">${urgentUnread.map(t => gmailCard(t)).join("") || `<div class="empty-note">Nothing urgent and unread.</div>`}</div>
+    </div>
+  `;
+}
+
+/* ---------------- jira ---------------- */
+
+function jiraCard(t) {
+  return `<div class="card" onclick="openTicket('${t.id}')">
+    <div class="card-top"><span class="card-id">${t.id}</span><span class="card-title">${escapeHtml(t.title)}</span></div>
+    <div class="card-row">${jiraStatusBadge(t.status)}${priorityBadge(t.priority)}<span class="badge muted">${t.project}</span>${t.sprint ? `<span class="chip">${t.sprint}</span>` : ""}${t.due_date ? `<span class="chip">due ${fmtDate(t.due_date)}</span>` : ""}</div>
+    <div class="card-row">${personChip(t.assignee)}<span class="muted">${(t.linked_tickets||[]).length ? (t.linked_tickets.length + " linked ticket(s)") : ""}</span></div>
+  </div>`;
+}
+
+function renderJira() {
+  const f = filterState.jira;
+  const el = document.getElementById("panel-jira");
+  const assignees = [...new Set(DB.jira.map(t => t.assignee))];
+  el.innerHTML = `
+    <div class="filterbar">
+      <input type="text" id="jira-search" placeholder="Search title, description, id…" value="${escapeHtml(f.q||"")}">
+      <select id="jira-project"><option value="">All projects</option>${["PROJ","INFRA","BUG"].map(p => `<option ${f.project===p?"selected":""}>${p}</option>`).join("")}</select>
+      <select id="jira-status"><option value="">All statuses</option>${["Backlog","To Do","In Progress","In Review","Done"].map(s => `<option ${f.status===s?"selected":""}>${s}</option>`).join("")}</select>
+      <select id="jira-assignee"><option value="">All assignees</option>${assignees.map(a => `<option value="${a}" ${f.assignee===a?"selected":""}>${DB.usersByName[a]?.name||a}</option>`).join("")}</select>
+      <span class="result-count" id="jira-count"></span>
+    </div>
+    <div class="card-list" id="jira-list"></div>
+  `;
+  const apply = () => {
+    f.q = document.getElementById("jira-search").value;
+    f.project = document.getElementById("jira-project").value;
+    f.status = document.getElementById("jira-status").value;
+    f.assignee = document.getElementById("jira-assignee").value;
+    let rows = DB.jira;
+    if (f.project) rows = rows.filter(t => t.project === f.project);
+    if (f.status) rows = rows.filter(t => t.status === f.status);
+    if (f.assignee) rows = rows.filter(t => t.assignee === f.assignee);
+    if (f.q) { const q = f.q.toLowerCase(); rows = rows.filter(t => t.id.toLowerCase().includes(q) || t.title.toLowerCase().includes(q) || t.description.toLowerCase().includes(q)); }
+    document.getElementById("jira-count").textContent = `${rows.length} of ${DB.jira.length}`;
+    document.getElementById("jira-list").innerHTML = rows.map(jiraCard).join("") || `<div class="empty-note">No tickets match.</div>`;
+  };
+  ["jira-search","jira-project","jira-status","jira-assignee"].forEach(id => {
+    document.getElementById(id).addEventListener("input", apply);
+    document.getElementById(id).addEventListener("change", apply);
+  });
+  apply();
+}
+
+/* ---------------- github ---------------- */
+
+function prCard(p) {
+  return `<div class="card" onclick="openPR('${p.id}')">
+    <div class="card-top"><span class="card-id">${p.id}</span><span class="card-title">${escapeHtml(p.title)}</span></div>
+    <div class="card-row">${prStatusBadge(p)}${ciBadge(p.ci_status)}${p.linked_jira_ticket ? `<span class="chip">${p.linked_jira_ticket}</span>` : ""}</div>
+    <div class="card-row">${personChip(p.author)}<span class="muted">reviewers:</span>${(p.reviewers||[]).map(personChip).join("") || "<span class='muted'>none</span>"}<span class="muted">+${p.diff_stats.additions}/-${p.diff_stats.deletions}</span></div>
+  </div>`;
+}
+
+function renderGithub() {
+  const f = filterState.github;
+  const el = document.getElementById("panel-github");
+  const repos = [...new Set(DB.prs.map(p => p.repo))];
+  el.innerHTML = `
+    <div class="filterbar">
+      <input type="text" id="gh-search" placeholder="Search PR title, id…" value="${escapeHtml(f.q||"")}">
+      <select id="gh-repo"><option value="">All repos</option>${repos.map(r => `<option ${f.repo===r?"selected":""}>${r}</option>`).join("")}</select>
+      <select id="gh-status"><option value="">All statuses</option>${["open","merged","closed"].map(s => `<option ${f.status===s?"selected":""}>${s}</option>`).join("")}</select>
+      <label class="toggle"><input type="checkbox" id="gh-failing" ${f.failing?"checked":""}> CI failing only</label>
+      <span class="result-count" id="gh-count"></span>
+    </div>
+    <div class="card-list" id="gh-list"></div>
+  `;
+  const apply = () => {
+    f.q = document.getElementById("gh-search").value;
+    f.repo = document.getElementById("gh-repo").value;
+    f.status = document.getElementById("gh-status").value;
+    f.failing = document.getElementById("gh-failing").checked;
+    let rows = DB.prs;
+    if (f.repo) rows = rows.filter(p => p.repo === f.repo);
+    if (f.status) rows = rows.filter(p => p.status === f.status);
+    if (f.failing) rows = rows.filter(p => p.ci_status === "failing");
+    if (f.q) { const q = f.q.toLowerCase(); rows = rows.filter(p => p.id.toLowerCase().includes(q) || p.title.toLowerCase().includes(q)); }
+    document.getElementById("gh-count").textContent = `${rows.length} of ${DB.prs.length}`;
+    document.getElementById("gh-list").innerHTML = rows.map(prCard).join("") || `<div class="empty-note">No PRs match.</div>`;
+  };
+  ["gh-search","gh-repo","gh-status","gh-failing"].forEach(id => {
+    document.getElementById(id).addEventListener("input", apply);
+    document.getElementById(id).addEventListener("change", apply);
+  });
+  apply();
+}
+
+/* ---------------- slack ---------------- */
+
+function convoCard(c) {
+  const first = c.messages[0], last = c.messages[c.messages.length-1];
+  const where = c.type === "dm" ? "DM · " + c.participants.map(u => DB.usersByName[u]?.name||u).join(" ↔ ") : "#" + c.channel;
+  return `<div class="card" onclick="openConvo('${c.id}')">
+    <div class="card-top"><span class="card-id">${where}</span><span class="muted">${c.messages.length} msg${c.messages.length>1?"s":""}</span></div>
+    <div class="card-row">${personChip(first.user)}<span class="muted">${fmtDateTime(last.ts)}</span></div>
+    <div class="card-snippet">${escapeHtml(first.text)}</div>
+  </div>`;
+}
+
+function renderSlack() {
+  const f = filterState.slack;
+  const el = document.getElementById("panel-slack");
+  el.innerHTML = `
+    <div class="filterbar">
+      <input type="text" id="sl-search" placeholder="Search messages…" value="${escapeHtml(f.q||"")}">
+      <select id="sl-channel"><option value="">All channels + DMs</option>${DB.slackChannels.map(c => `<option value="${c.id}" ${f.channel===c.id?"selected":""}>${c.name}</option>`).join("")}<option value="__dm" ${f.channel==="__dm"?"selected":""}>DMs</option></select>
+      <label class="toggle"><input type="checkbox" id="sl-mentions" ${f.mentionsMe?"checked":""}> mentions me</label>
+      <span class="result-count" id="sl-count"></span>
+    </div>
+    <div class="card-list" id="sl-list"></div>
+  `;
+  const me = DB.users.find(u => u.id === DB.meta.current_user_id).username;
+  const apply = () => {
+    f.q = document.getElementById("sl-search").value;
+    f.channel = document.getElementById("sl-channel").value;
+    f.mentionsMe = document.getElementById("sl-mentions").checked;
+    let rows = DB.slackConvos;
+    if (f.channel === "__dm") rows = rows.filter(c => c.type === "dm");
+    else if (f.channel) rows = rows.filter(c => c.channel === f.channel);
+    if (f.mentionsMe) rows = rows.filter(c => c.messages.some(m => (m.mentions||[]).includes(me)));
+    if (f.q) { const q = f.q.toLowerCase(); rows = rows.filter(c => c.messages.some(m => m.text.toLowerCase().includes(q))); }
+    rows = [...rows].sort((a,b) => b.messages[b.messages.length-1].ts.localeCompare(a.messages[a.messages.length-1].ts));
+    document.getElementById("sl-count").textContent = `${rows.length} of ${DB.slackConvos.length}`;
+    document.getElementById("sl-list").innerHTML = rows.map(convoCard).join("") || `<div class="empty-note">No conversations match.</div>`;
+  };
+  ["sl-search","sl-channel","sl-mentions"].forEach(id => {
+    document.getElementById(id).addEventListener("input", apply);
+    document.getElementById(id).addEventListener("change", apply);
+  });
+  apply();
+}
+
+/* ---------------- gmail ---------------- */
+
+function gmailCard(t) {
+  return `<div class="card" onclick="openThread('${t.id}')">
+    <div class="card-top">${t.unread ? `<span class="badge warning">Unread</span>` : ""}${t.flagged ? `<span class="badge serious">🚩 Flagged</span>` : ""}<span class="card-title">${escapeHtml(t.subject)}</span></div>
+    <div class="card-row">${(t.labels||[]).map(l => `<span class="chip">${l}</span>`).join("")}<span class="muted">${fmtDateTime(t.date)}</span></div>
+    <div class="card-snippet">${escapeHtml(t.messages[t.messages.length-1].body)}</div>
+  </div>`;
+}
+
+function renderGmail() {
+  const f = filterState.gmail;
+  const el = document.getElementById("panel-gmail");
+  const labels = [...new Set(DB.gmail.flatMap(t => t.labels))];
+  el.innerHTML = `
+    <div class="filterbar">
+      <input type="text" id="gm-search" placeholder="Search subject, body…" value="${escapeHtml(f.q||"")}">
+      <select id="gm-label"><option value="">All labels</option>${labels.map(l => `<option ${f.label===l?"selected":""}>${l}</option>`).join("")}</select>
+      <label class="toggle"><input type="checkbox" id="gm-unread" ${f.unread?"checked":""}> unread only</label>
+      <label class="toggle"><input type="checkbox" id="gm-flagged" ${f.flagged?"checked":""}> flagged only</label>
+      <span class="result-count" id="gm-count"></span>
+    </div>
+    <div class="card-list" id="gm-list"></div>
+  `;
+  const apply = () => {
+    f.q = document.getElementById("gm-search").value;
+    f.label = document.getElementById("gm-label").value;
+    f.unread = document.getElementById("gm-unread").checked;
+    f.flagged = document.getElementById("gm-flagged").checked;
+    let rows = DB.gmail;
+    if (f.label) rows = rows.filter(t => t.labels.includes(f.label));
+    if (f.unread) rows = rows.filter(t => t.unread);
+    if (f.flagged) rows = rows.filter(t => t.flagged);
+    if (f.q) { const q = f.q.toLowerCase(); rows = rows.filter(t => t.subject.toLowerCase().includes(q) || t.messages.some(m => m.body.toLowerCase().includes(q))); }
+    document.getElementById("gm-count").textContent = `${rows.length} of ${DB.gmail.length}`;
+    document.getElementById("gm-list").innerHTML = rows.map(gmailCard).join("") || `<div class="empty-note">No threads match.</div>`;
+  };
+  ["gm-search","gm-label","gm-unread","gm-flagged"].forEach(id => {
+    document.getElementById(id).addEventListener("input", apply);
+    document.getElementById(id).addEventListener("change", apply);
+  });
+  apply();
+}
+
+/* ---------------- calendar ---------------- */
+
+function overlaps(a, b) {
+  return new Date(a.start) < new Date(b.end) && new Date(b.start) < new Date(a.end);
+}
+function conflictsFor(ev, all) {
+  return all.filter(o => o.id !== ev.id && !o.all_day && !ev.all_day && overlaps(ev, o) && o.participants.some(p => ev.participants.includes(p)));
+}
+
+function renderCalendar() {
+  const f = filterState.calendar;
+  const el = document.getElementById("panel-calendar");
+  const types = [...new Set(DB.calendar.map(e => e.type))];
+  el.innerHTML = `
+    <div class="filterbar">
+      <select id="cal-range">
+        <option value="all" ${f.range==="all"?"selected":""}>All events</option>
+        <option value="week" ${!f.range||f.range==="week"?"selected":""}>This week</option>
+        <option value="today" ${f.range==="today"?"selected":""}>Today only</option>
+      </select>
+      <select id="cal-type"><option value="">All types</option>${types.map(t => `<option ${f.type===t?"selected":""}>${t}</option>`).join("")}</select>
+      <span class="result-count" id="cal-count"></span>
+    </div>
+    <div id="cal-groups"></div>
+  `;
+  const apply = () => {
+    f.range = document.getElementById("cal-range").value;
+    f.type = document.getElementById("cal-type").value;
+    let rows = DB.calendar;
+    if (f.type) rows = rows.filter(e => e.type === f.type);
+    if (f.range === "today") rows = rows.filter(e => dayKey(e.start) === DB.meta.today);
+    if (f.range === "week") {
+      const today = new Date(DB.meta.today + "T00:00:00");
+      const monday = new Date(today); monday.setDate(today.getDate() - ((today.getDay()+6)%7));
+      const sunday = new Date(monday); sunday.setDate(monday.getDate()+6);
+      rows = rows.filter(e => { const d = new Date(dayKey(e.start)+"T00:00:00"); return d >= monday && d <= sunday; });
+    }
+    rows = [...rows].sort((a,b) => a.start.localeCompare(b.start));
+    document.getElementById("cal-count").textContent = `${rows.length} of ${DB.calendar.length}`;
+    const groups = {};
+    for (const e of rows) (groups[dayKey(e.start)] ??= []).push(e);
+    document.getElementById("cal-groups").innerHTML = Object.keys(groups).sort().map(day => {
+      const isToday = day === DB.meta.today;
+      const evs = groups[day];
+      return `<div class="day-group">
+        <div class="day-heading ${isToday?"today":""}">${new Date(day+"T00:00:00").toLocaleDateString(undefined,{weekday:"long", month:"short", day:"numeric"})} ${isToday?"· today":""}</div>
+        <div class="card-list">${evs.map(e => {
+          const conflicts = conflictsFor(e, DB.calendar);
+          return `<div class="card" onclick="openEvent('${e.id}')">
+            <div class="card-top"><span class="card-id">${e.all_day ? "all day" : new Date(e.start).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"}) + "–" + new Date(e.end).toLocaleTimeString(undefined,{hour:"numeric",minute:"2-digit"})}</span><span class="card-title">${escapeHtml(e.title)}</span><span class="badge muted">${e.type}</span></div>
+            <div class="card-row">${e.participants.slice(0,6).map(personChip).join("")}</div>
+            ${conflicts.length ? `<div class="conflict-note">⚠ overlaps with ${conflicts.map(c=>escapeHtml(c.title)).join(", ")}</div>` : ""}
+          </div>`;
+        }).join("")}</div>
+      </div>`;
+    }).join("") || `<div class="empty-note">No events match.</div>`;
+  };
+  ["cal-range","cal-type"].forEach(id => document.getElementById(id).addEventListener("change", apply));
+  apply();
+}
+
+/* ---------------- boot ---------------- */
+
+loadAll().catch(showLoadError);
+</script>
+</body>
+</html>

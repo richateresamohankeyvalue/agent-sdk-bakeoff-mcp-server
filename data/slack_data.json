@@ -1,0 +1,796 @@
+{
+  "channels": [
+    {
+      "id": "standup",
+      "name": "#standup",
+      "members": [
+        "aisha.khan",
+        "rahul.verma",
+        "sarah.lin",
+        "marcus.webb",
+        "priya.nair",
+        "devon.brooks"
+      ]
+    },
+    {
+      "id": "engineering",
+      "name": "#engineering",
+      "members": [
+        "aisha.khan",
+        "rahul.verma",
+        "sarah.lin",
+        "marcus.webb",
+        "priya.nair",
+        "devon.brooks"
+      ]
+    },
+    {
+      "id": "bugs",
+      "name": "#bugs",
+      "members": [
+        "aisha.khan",
+        "rahul.verma",
+        "sarah.lin",
+        "marcus.webb",
+        "priya.nair",
+        "devon.brooks"
+      ]
+    },
+    {
+      "id": "random",
+      "name": "#random",
+      "members": [
+        "aisha.khan",
+        "rahul.verma",
+        "sarah.lin",
+        "marcus.webb",
+        "priya.nair",
+        "devon.brooks"
+      ]
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_002",
+      "type": "channel",
+      "channel": "standup",
+      "messages": [
+        {
+          "id": "msg_0006",
+          "user": "aisha.khan",
+          "text": "Yesterday: PROJ-118 in review. Today: starting INFRA-56 rate limiter work, continuing SSO. No blockers.",
+          "ts": "2025-06-16T10:01:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0007",
+          "user": "rahul.verma",
+          "text": "Yesterday: usage dashboard layout scaffolded. Today: wiring up the charts, then picking up PROJ-130 dark mode.",
+          "ts": "2025-06-16T10:02:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0008",
+          "user": "devon.brooks",
+          "text": "Yesterday: nightly backups merged. Today: chasing down the flaky integration test suite (INFRA-60), it's blocking PR merges.",
+          "ts": "2025-06-16T10:03:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0009",
+          "user": "marcus.webb",
+          "text": "No blockers, reviewing PRs. Heads up sprint 15 planning is next Wednesday 2 PM.",
+          "ts": "2025-06-16T10:04:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0010",
+          "user": "priya.nair",
+          "text": "e2e login tests PR is up (#140). Also found a rendering bug on Safari, filing BUG-207 now.",
+          "ts": "2025-06-16T10:05:00+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_003",
+      "type": "channel",
+      "channel": "standup",
+      "messages": [
+        {
+          "id": "msg_0011",
+          "user": "aisha.khan",
+          "text": "Yesterday: PROJ-118 merged, started INFRA-56. Today: fixing BUG-207 Safari rendering bug, then back to SSO review comments. No blockers.",
+          "ts": "2025-06-17T10:01:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0012",
+          "user": "rahul.verma",
+          "text": "Yesterday: usage dashboard charts wired up. Today: PROJ-130 dark mode PR, and looking at the CI snapshot failures on #147.",
+          "ts": "2025-06-17T10:02:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0013",
+          "user": "devon.brooks",
+          "text": "Root-caused the flaky CI issue, fix incoming today. Also starting on connection pooling (INFRA-63) \u2014 DB latency has been spiking.",
+          "ts": "2025-06-17T10:03:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0014",
+          "user": "marcus.webb",
+          "text": "Watching the DB latency thing closely, will escalate if it doesn't stabilize by this afternoon.",
+          "ts": "2025-06-17T10:04:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0015",
+          "user": "priya.nair",
+          "text": "Filed BUG-211 (timezone offset bug in calendar widget) and BUG-208 (mobile export button). Otherwise continuing test coverage on dark mode.",
+          "ts": "2025-06-17T10:05:00+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_004",
+      "type": "channel",
+      "channel": "standup",
+      "messages": [
+        {
+          "id": "msg_0016",
+          "user": "marcus.webb",
+          "text": "Reminder: standup is 10 AM sharp today, sprint planning right after lunch at 2 PM. Please skim PROJ-140/PROJ-141 before then.",
+          "ts": "2025-06-18T08:00:00+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_005",
+      "type": "channel",
+      "channel": "standup",
+      "messages": [
+        {
+          "id": "msg_0017",
+          "user": "sarah.lin",
+          "text": "Heads up \u2014 no standup this Friday, I'll be at the offsite. Please post async updates in this channel instead.",
+          "ts": "2025-06-16T09:30:00+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_006",
+      "type": "channel",
+      "channel": "standup",
+      "messages": [
+        {
+          "id": "msg_0018",
+          "user": "rahul.verma",
+          "text": "Added a quick Loom walkthrough of the dark mode toggle for anyone curious: link in #engineering.",
+          "ts": "2025-06-17T13:10:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0019",
+          "user": "priya.nair",
+          "text": "Nice, will check it out before I finish the test PR.",
+          "ts": "2025-06-17T13:15:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0018"
+        }
+      ]
+    },
+    {
+      "id": "conv_007",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0020",
+          "user": "marcus.webb",
+          "text": "@aisha.khan left some comments on #136 (SSO login) \u2014 mainly the refresh token isn't invalidating the old one on rotation. Also `test_token_refresh_rotation` looks flaky in CI, can you take a look?",
+          "ts": "2025-06-17T16:40:00+05:30",
+          "mentions": [
+            "aisha.khan"
+          ]
+        },
+        {
+          "id": "msg_0021",
+          "user": "aisha.khan",
+          "text": "Yep, on it \u2014 will push a fix for the rotation logic and dig into the flaky test this morning.",
+          "ts": "2025-06-18T09:00:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0020"
+        },
+        {
+          "id": "msg_0022",
+          "user": "sarah.lin",
+          "text": "Reminder this is needed for the Vector Analytics demo Friday morning \u2014 thank you both for the quick turnaround!",
+          "ts": "2025-06-18T09:10:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0020"
+        }
+      ]
+    },
+    {
+      "id": "conv_008",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0023",
+          "user": "devon.brooks",
+          "text": "INFRA-56 (rate limiter) is blocking my read-replica rollout and Rahul's dashboard load testing. @marcus.webb can we get infra change approval today?",
+          "ts": "2025-06-18T08:05:00+05:30",
+          "mentions": [
+            "marcus.webb"
+          ]
+        },
+        {
+          "id": "msg_0024",
+          "user": "marcus.webb",
+          "text": "Approving now, go ahead and merge once CI is green. @aisha.khan the flaky test on #64 is the same root cause devon just fixed in INFRA-60, might just need a rebase.",
+          "ts": "2025-06-18T08:30:00+05:30",
+          "mentions": [
+            "aisha.khan"
+          ],
+          "reply_to": "msg_0023"
+        }
+      ]
+    },
+    {
+      "id": "conv_009",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0025",
+          "user": "devon.brooks",
+          "text": "Found the CI flakiness cause \u2014 test DB container wasn't fully ready before the suite started. Adding a proper healthcheck wait, PR incoming.",
+          "ts": "2025-06-18T07:50:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0026",
+          "user": "aisha.khan",
+          "text": "That explains the intermittent failures on my rate limiter PR too, thank you!",
+          "ts": "2025-06-18T07:55:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0025"
+        }
+      ]
+    },
+    {
+      "id": "conv_010",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0027",
+          "user": "marcus.webb",
+          "text": "PROJ-118 notification refactor is merged. Nice cleanup @aisha.khan, this should also kill the duplicate-notification bug (BUG-209).",
+          "ts": "2025-06-17T19:05:00+05:30",
+          "mentions": [
+            "aisha.khan"
+          ]
+        },
+        {
+          "id": "msg_0028",
+          "user": "devon.brooks",
+          "text": "Great timing, that duplicate notification bug has been reported twice by support this month.",
+          "ts": "2025-06-17T19:20:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0027"
+        }
+      ]
+    },
+    {
+      "id": "conv_011",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0029",
+          "user": "rahul.verma",
+          "text": "PROJ-130 dark mode PR (#144) is up, tagged @aisha.khan for a look at the preference-storage endpoint.",
+          "ts": "2025-06-17T12:40:00+05:30",
+          "mentions": [
+            "aisha.khan"
+          ]
+        },
+        {
+          "id": "msg_0030",
+          "user": "aisha.khan",
+          "text": "Will review after I finish the Safari fix today.",
+          "ts": "2025-06-18T09:12:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0029"
+        }
+      ]
+    },
+    {
+      "id": "conv_012",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0031",
+          "user": "rahul.verma",
+          "text": "CI is failing on #147 (usage dashboard) \u2014 snapshot tests. Not sure what changed.",
+          "ts": "2025-06-17T18:00:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0032",
+          "user": "aisha.khan",
+          "text": "Looks like the chart legend markup changed in a recent charting-lib bump \u2014 snapshots are stale. Left a comment on the PR, should just need fixture updates.",
+          "ts": "2025-06-17T18:20:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0031"
+        },
+        {
+          "id": "msg_0033",
+          "user": "rahul.verma",
+          "text": "Ah that makes sense, updating fixtures now. Ticket's due tomorrow so hoping to land it today.",
+          "ts": "2025-06-18T09:50:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0032"
+        }
+      ]
+    },
+    {
+      "id": "conv_013",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0034",
+          "user": "marcus.webb",
+          "text": "Opened an experimental PR for server-side rendering on the dashboard (#141) \u2014 curious if it's worth the added complexity.",
+          "ts": "2025-06-16T09:00:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0035",
+          "user": "aisha.khan",
+          "text": "Ran the numbers \u2014 hydration cost outweighs the TTFB win for our typical data sizes. I'd shelve this for now.",
+          "ts": "2025-06-16T09:20:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0034"
+        },
+        {
+          "id": "msg_0036",
+          "user": "rahul.verma",
+          "text": "Agreed, closing it. Good experiment to have run though.",
+          "ts": "2025-06-16T09:30:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0035"
+        }
+      ]
+    },
+    {
+      "id": "conv_014",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0037",
+          "user": "rahul.verma",
+          "text": "Bumping react to 18.3 (#142), no breaking API changes for us, just picks up some concurrent-rendering fixes.",
+          "ts": "2025-06-16T11:05:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0038",
+          "user": "aisha.khan",
+          "text": "LGTM, approved.",
+          "ts": "2025-06-16T14:00:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0037"
+        }
+      ]
+    },
+    {
+      "id": "conv_015",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0039",
+          "user": "aisha.khan",
+          "text": "Opened #137 adding HMAC signature verification for inbound webhooks \u2014 currently anyone can hit that endpoint unauthenticated. @devon.brooks mind reviewing given the infra/security overlap?",
+          "ts": "2025-06-16T11:10:00+05:30",
+          "mentions": [
+            "devon.brooks"
+          ]
+        },
+        {
+          "id": "msg_0040",
+          "user": "devon.brooks",
+          "text": "On my list, will get to it today or tomorrow.",
+          "ts": "2025-06-17T09:05:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0039"
+        }
+      ]
+    },
+    {
+      "id": "conv_016",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0041",
+          "user": "marcus.webb",
+          "text": "Sprint 15 planning is Wed 2 PM. Agenda: review velocity from Sprint 14, scope PROJ-140 (workspace switcher) and PROJ-141 (SAML support), and talk through the INFRA-56/BUG-199 carryover. Please skim the tickets beforehand.",
+          "ts": "2025-06-17T17:00:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0042",
+          "user": "sarah.lin",
+          "text": "I'll bring client priorities for next quarter too, mainly around enterprise SSO/SAML demand.",
+          "ts": "2025-06-17T17:15:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0041"
+        }
+      ]
+    },
+    {
+      "id": "conv_017",
+      "type": "channel",
+      "channel": "bugs",
+      "messages": [
+        {
+          "id": "msg_0043",
+          "user": "priya.nair",
+          "text": "BUG-207: dashboard charts render completely blank on Safari 17.4/17.5, macOS Sonoma. Chrome and Firefox are fine. Screenshots attached in the ticket.",
+          "ts": "2025-06-16T13:25:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0044",
+          "user": "aisha.khan",
+          "text": "Confirmed repro. Looks like canvas width is 0 on first paint under Safari's layout timing \u2014 investigating today.",
+          "ts": "2025-06-17T10:10:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0043"
+        },
+        {
+          "id": "msg_0045",
+          "user": "aisha.khan",
+          "text": "Fix is up in #143 with a regression test. @priya.nair can you re-verify on your Safari setup once it's merged?",
+          "ts": "2025-06-18T09:35:00+05:30",
+          "mentions": [
+            "priya.nair"
+          ],
+          "reply_to": "msg_0044"
+        }
+      ]
+    },
+    {
+      "id": "conv_018",
+      "type": "channel",
+      "channel": "bugs",
+      "messages": [
+        {
+          "id": "msg_0046",
+          "user": "marcus.webb",
+          "text": "@here Prod dashboard query latency is spiking to 8-12s during the 10-11 AM PT peak window. Multiple customers affected, including Vector Analytics. Filed as BUG-199 (critical), @devon.brooks investigating.",
+          "ts": "2025-06-17T08:35:00+05:30",
+          "mentions": [
+            "devon.brooks"
+          ]
+        },
+        {
+          "id": "msg_0047",
+          "user": "devon.brooks",
+          "text": "Confirmed it's connection exhaustion on the primary DB, not a query plan regression. Working on adding pgbouncer connection pooling now (INFRA-63).",
+          "ts": "2025-06-17T21:00:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0046"
+        },
+        {
+          "id": "msg_0048",
+          "user": "marcus.webb",
+          "text": "@aisha.khan can you help review #63 (connection pooling) today? Vector Analytics has emailed twice about this, want to get it out fast.",
+          "ts": "2025-06-18T09:00:00+05:30",
+          "mentions": [
+            "aisha.khan"
+          ],
+          "reply_to": "msg_0047"
+        },
+        {
+          "id": "msg_0049",
+          "user": "aisha.khan",
+          "text": "Will review right after standup.",
+          "ts": "2025-06-18T09:15:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0048"
+        }
+      ]
+    },
+    {
+      "id": "conv_019",
+      "type": "channel",
+      "channel": "bugs",
+      "messages": [
+        {
+          "id": "msg_0050",
+          "user": "sarah.lin",
+          "text": "Support flagged a flash-of-unstyled-content issue on the login page from a customer on a slow connection. Filed BUG-210.",
+          "ts": "2025-06-16T09:15:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0051",
+          "user": "rahul.verma",
+          "text": "Reproduced it, it's a CSS loading-order issue. Fix in progress, PR up as #146.",
+          "ts": "2025-06-16T10:25:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0050"
+        }
+      ]
+    },
+    {
+      "id": "conv_020",
+      "type": "channel",
+      "channel": "bugs",
+      "messages": [
+        {
+          "id": "msg_0052",
+          "user": "priya.nair",
+          "text": "BUG-211: calendar widget meeting times are off by an hour for CET users during DST. Looks like a stale UTC offset table. Assigning to @aisha.khan since it's the shared timezone-resolution module.",
+          "ts": "2025-06-17T15:00:00+05:30",
+          "mentions": [
+            "aisha.khan"
+          ]
+        },
+        {
+          "id": "msg_0053",
+          "user": "aisha.khan",
+          "text": "Thanks for the clear repro steps, queued for this sprint.",
+          "ts": "2025-06-17T15:30:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0052"
+        }
+      ]
+    },
+    {
+      "id": "conv_021",
+      "type": "channel",
+      "channel": "bugs",
+      "messages": [
+        {
+          "id": "msg_0054",
+          "user": "priya.nair",
+          "text": "BUG-212: the legacy ad-hoc CSV export silently truncates at 10k rows with no warning. Found while testing a large workspace.",
+          "ts": "2025-06-16T10:05:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0055",
+          "user": "aisha.khan",
+          "text": "This'll be superseded by the new streaming export in PROJ-125 \u2014 I'll close it once that ships instead of patching the legacy path.",
+          "ts": "2025-06-16T11:00:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0054"
+        }
+      ]
+    },
+    {
+      "id": "conv_022",
+      "type": "channel",
+      "channel": "bugs",
+      "messages": [
+        {
+          "id": "msg_0056",
+          "user": "devon.brooks",
+          "text": "BUG-213 (websocket memory leak) is resolved and merged. Root cause was leaked listener references on long-lived connections \u2014 added a cleanup on disconnect plus a load test to catch regressions.",
+          "ts": "2025-06-16T16:05:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0057",
+          "user": "marcus.webb",
+          "text": "Great find, that one had been nagging us for weeks.",
+          "ts": "2025-06-16T16:20:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0056"
+        }
+      ]
+    },
+    {
+      "id": "conv_023",
+      "type": "channel",
+      "channel": "bugs",
+      "messages": [
+        {
+          "id": "msg_0058",
+          "user": "priya.nair",
+          "text": "BUG-208: report export button looks enabled but is unclickable below 480px width. Assigning to @rahul.verma.",
+          "ts": "2025-06-16T11:05:00+05:30",
+          "mentions": [
+            "rahul.verma"
+          ]
+        },
+        {
+          "id": "msg_0059",
+          "user": "rahul.verma",
+          "text": "Got it, will pick this up after the usage dashboard PR.",
+          "ts": "2025-06-16T11:20:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0058"
+        }
+      ]
+    },
+    {
+      "id": "conv_024",
+      "type": "channel",
+      "channel": "bugs",
+      "messages": [
+        {
+          "id": "msg_0060",
+          "user": "marcus.webb",
+          "text": "Weekly bug triage: BUG-199 (critical, in progress) and BUG-207 (high, in progress) are top priority. BUG-211 and BUG-208 are this-sprint. BUG-212 waits on PROJ-125.",
+          "ts": "2025-06-18T08:20:00+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_025",
+      "type": "channel",
+      "channel": "random",
+      "messages": [
+        {
+          "id": "msg_0061",
+          "user": "devon.brooks",
+          "text": "The office coffee machine is making concerning noises again",
+          "ts": "2025-06-16T15:30:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0062",
+          "user": "priya.nair",
+          "text": "third time this month lol",
+          "ts": "2025-06-16T15:32:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0061"
+        }
+      ]
+    },
+    {
+      "id": "conv_026",
+      "type": "channel",
+      "channel": "random",
+      "messages": [
+        {
+          "id": "msg_0063",
+          "user": "sarah.lin",
+          "text": "Welcome to Kavya, joining the support team today! Say hi when you see her around.",
+          "ts": "2025-06-16T09:00:00+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_027",
+      "type": "channel",
+      "channel": "random",
+      "messages": [
+        {
+          "id": "msg_0064",
+          "user": "rahul.verma",
+          "text": "anyone else watching the match tonight?",
+          "ts": "2025-06-16T18:00:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0065",
+          "user": "priya.nair",
+          "text": "yep, should be a good one",
+          "ts": "2025-06-16T18:05:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0064"
+        }
+      ]
+    },
+    {
+      "id": "conv_028",
+      "type": "channel",
+      "channel": "random",
+      "messages": [
+        {
+          "id": "msg_0066",
+          "user": "devon.brooks",
+          "text": "found this and thought of our connection pool incident: 'it's not a bug, it's a limited resource' \ud83d\ude02",
+          "ts": "2025-06-17T22:00:00+05:30",
+          "mentions": []
+        },
+        {
+          "id": "msg_0067",
+          "user": "marcus.webb",
+          "text": "too real",
+          "ts": "2025-06-17T22:05:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0066"
+        }
+      ]
+    },
+    {
+      "id": "conv_029",
+      "type": "dm",
+      "channel": null,
+      "participants": [
+        "sarah.lin",
+        "aisha.khan"
+      ],
+      "messages": [
+        {
+          "id": "msg_0068",
+          "user": "sarah.lin",
+          "text": "Hey \u2014 can you confirm SSO login will be demo-ready for the Vector Analytics call Friday morning? Want to loop in Tom Reyes if so.",
+          "ts": "2025-06-17T15:20:00+05:30",
+          "mentions": [
+            "aisha.khan"
+          ]
+        },
+        {
+          "id": "msg_0069",
+          "user": "aisha.khan",
+          "text": "Should be \u2014 just addressing the last review comments from Marcus, aiming to merge by Thursday EOD.",
+          "ts": "2025-06-17T16:00:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0068"
+        }
+      ]
+    },
+    {
+      "id": "conv_030",
+      "type": "dm",
+      "channel": null,
+      "participants": [
+        "marcus.webb",
+        "aisha.khan"
+      ],
+      "messages": [
+        {
+          "id": "msg_0070",
+          "user": "marcus.webb",
+          "text": "Given BUG-199 is critical, feel free to pause SSO work for a bit if the pooling PR (#63) needs backend eyes today.",
+          "ts": "2025-06-18T08:45:00+05:30",
+          "mentions": [
+            "aisha.khan"
+          ]
+        },
+        {
+          "id": "msg_0071",
+          "user": "aisha.khan",
+          "text": "Got it, will review #63 right after standup and prioritize accordingly.",
+          "ts": "2025-06-18T09:16:00+05:30",
+          "mentions": [],
+          "reply_to": "msg_0070"
+        }
+      ]
+    },
+    {
+      "id": "conv_031",
+      "type": "channel",
+      "channel": "engineering",
+      "messages": [
+        {
+          "id": "msg_0072",
+          "user": "devon.brooks",
+          "text": "Heads up \u2014 Postgres upgrade (INFRA-62) needs a short maintenance window this weekend, likely Saturday 2-3 AM IST. Will confirm exact timing once BUG-199 is fully resolved.",
+          "ts": "2025-06-17T12:05:00+05:30",
+          "mentions": []
+        }
+      ]
+    }
+  ]
+}

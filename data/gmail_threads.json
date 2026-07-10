@@ -1,0 +1,876 @@
+[
+  {
+    "id": "thread_1001",
+    "subject": "SSO login - client demo timing",
+    "participants": [
+      "sarah.lin@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "urgent"
+    ],
+    "unread": true,
+    "date": "2025-06-17T15:35:00+05:30",
+    "messages": [
+      {
+        "from": "sarah.lin@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [
+          "marcus.webb@nimbuslabs.dev"
+        ],
+        "date": "2025-06-17T15:35:00+05:30",
+        "body": "Hi Aisha, following up from Slack \u2014 can you confirm SSO login (PROJ-101) will be demo-ready for the Vector Analytics call Friday 10 AM PT? If yes I'll invite Tom Reyes formally today. Let me know if you need anything unblocked."
+      }
+    ],
+    "flagged": true
+  },
+  {
+    "id": "thread_1002",
+    "subject": "URGENT: Dashboard performance issue",
+    "participants": [
+      "tom.reyes@vectoranalytics.io",
+      "sarah.lin@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "external",
+      "urgent"
+    ],
+    "unread": true,
+    "date": "2025-06-18T07:10:00+05:30",
+    "messages": [
+      {
+        "from": "tom.reyes@vectoranalytics.io",
+        "to": [
+          "sarah.lin@nimbuslabs.dev"
+        ],
+        "cc": [
+          "marcus.webb@nimbuslabs.dev"
+        ],
+        "date": "2025-06-16T21:40:00-04:00",
+        "body": "Hi Sarah, our dashboards have been timing out every morning around 10-11 AM ET this week. It's affecting our ops team's daily review. Can someone look into this urgently?"
+      },
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "tom.reyes@vectoranalytics.io"
+        ],
+        "cc": [
+          "sarah.lin@nimbuslabs.dev",
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "date": "2025-06-17T09:00:00+05:30",
+        "body": "Hi Tom, thanks for flagging \u2014 we've identified this as a database connection exhaustion issue under peak load (tracked internally as BUG-199) and have a fix in progress. Expecting to ship a mitigation today or tomorrow. Will keep you posted."
+      },
+      {
+        "from": "tom.reyes@vectoranalytics.io",
+        "to": [
+          "marcus.webb@nimbuslabs.dev"
+        ],
+        "cc": [
+          "sarah.lin@nimbuslabs.dev"
+        ],
+        "date": "2025-06-17T20:15:00-04:00",
+        "body": "Thanks Marcus, appreciate the quick response. It happened again this morning though \u2014 hoping this gets resolved soon, it's becoming a daily disruption for us."
+      }
+    ],
+    "flagged": true
+  },
+  {
+    "id": "thread_1003",
+    "subject": "Sprint 15 planning - agenda & pre-reads",
+    "participants": [
+      "marcus.webb@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev",
+      "rahul.verma@nimbuslabs.dev",
+      "priya.nair@nimbuslabs.dev",
+      "devon.brooks@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "team"
+    ],
+    "unread": false,
+    "date": "2025-06-17T17:30:00+05:30",
+    "messages": [
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev",
+          "rahul.verma@nimbuslabs.dev",
+          "priya.nair@nimbuslabs.dev",
+          "devon.brooks@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-17T17:30:00+05:30",
+        "body": "Sprint 15 planning is tomorrow (Wed) at 2 PM. Agenda: 1) Sprint 14 velocity recap, 2) Scope PROJ-140 (workspace switcher) and PROJ-141 (SAML support), 3) Carryover from BUG-199 / INFRA-56. Please review those tickets beforehand. Sarah will join with client priorities for next quarter."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1004",
+    "subject": "Bug report: intermittent 500 on /api/tickets",
+    "participants": [
+      "priya.nair@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-07T14:00:00+05:30",
+    "messages": [
+      {
+        "from": "priya.nair@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [
+          "marcus.webb@nimbuslabs.dev"
+        ],
+        "date": "2025-06-07T14:00:00+05:30",
+        "body": "Seeing intermittent 500s on GET /api/tickets when a workspace has a lot of linked tickets \u2014 looks like an N+1 query timing out. Repro steps and logs attached. Not urgent but worth a look this week."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1005",
+    "subject": "Code review request: PROJ-118 notification refactor",
+    "participants": [
+      "aisha.khan@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-17T18:50:00+05:30",
+    "messages": [
+      {
+        "from": "aisha.khan@nimbuslabs.dev",
+        "to": [
+          "marcus.webb@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-13T16:00:00+05:30",
+        "body": "PR is up for PROJ-118 (event-queue notification refactor), #134 on pulse-api. It's a fairly large diff \u2014 happy to walk through it live if that's easier than a cold review."
+      },
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-17T18:50:00+05:30",
+        "body": "Went through it in detail, left one comment on retry logic which you already addressed. Approving and merging now \u2014 nice work, this should also resolve BUG-209."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1006",
+    "subject": "Q3 roadmap input needed",
+    "participants": [
+      "sarah.lin@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev",
+      "rahul.verma@nimbuslabs.dev",
+      "devon.brooks@nimbuslabs.dev",
+      "priya.nair@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "team"
+    ],
+    "unread": false,
+    "date": "2025-06-05T11:00:00+05:30",
+    "messages": [
+      {
+        "from": "sarah.lin@nimbuslabs.dev",
+        "to": [
+          "marcus.webb@nimbuslabs.dev",
+          "aisha.khan@nimbuslabs.dev",
+          "rahul.verma@nimbuslabs.dev",
+          "devon.brooks@nimbuslabs.dev",
+          "priya.nair@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-05T11:00:00+05:30",
+        "body": "Starting to scope Q3. Big themes so far: enterprise SSO/SAML, multi-workspace support, and export/reporting improvements. Send me any engineering-side concerns (tech debt, infra risk) you want factored in by end of week."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1007",
+    "subject": "Client renewal call notes - Vector Analytics",
+    "participants": [
+      "sarah.lin@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "external"
+    ],
+    "unread": false,
+    "date": "2025-06-11T13:00:00+05:30",
+    "messages": [
+      {
+        "from": "sarah.lin@nimbuslabs.dev",
+        "to": [
+          "marcus.webb@nimbuslabs.dev",
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-11T13:00:00+05:30",
+        "body": "Notes from today's renewal call with Vector Analytics: they're happy overall, but SSO is a hard requirement for their security team to renew at the higher tier. Also mentioned occasional dashboard slowness. Flagging both \u2014 SSO is PROJ-101, will keep an eye on the perf comment too."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1008",
+    "subject": "PTO request - June 27-30",
+    "participants": [
+      "rahul.verma@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-10T09:30:00+05:30",
+    "messages": [
+      {
+        "from": "rahul.verma@nimbuslabs.dev",
+        "to": [
+          "marcus.webb@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-10T09:30:00+05:30",
+        "body": "Requesting PTO June 27-30, back on the 1st. Should be past the Sprint 15 usage-dashboard work by then. Let me know if that's a conflict."
+      }
+    ],
+    "flagged": true
+  },
+  {
+    "id": "thread_1009",
+    "subject": "Design review feedback: usage analytics dashboard",
+    "participants": [
+      "sarah.lin@nimbuslabs.dev",
+      "rahul.verma@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-13T10:00:00+05:30",
+    "messages": [
+      {
+        "from": "sarah.lin@nimbuslabs.dev",
+        "to": [
+          "rahul.verma@nimbuslabs.dev"
+        ],
+        "cc": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "date": "2025-06-13T10:00:00+05:30",
+        "body": "Looked at the usage dashboard mocks \u2014 looks great. One ask: can we add a per-feature adoption breakdown, not just per-workspace totals? Growth team specifically asked for this."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1010",
+    "subject": "Security: quarterly key rotation reminder",
+    "participants": [
+      "marcus.webb@nimbuslabs.dev",
+      "devon.brooks@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-01T09:15:00+05:30",
+    "messages": [
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "devon.brooks@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-01T09:15:00+05:30",
+        "body": "Reminder that JWT signing key rotation (INFRA-65) is due this week per the quarterly security policy. I'll handle it, just flagging in case you need to update anything downstream."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1011",
+    "subject": "Onboarding checklist copy draft",
+    "participants": [
+      "sarah.lin@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev",
+      "priya.nair@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "team"
+    ],
+    "unread": false,
+    "date": "2025-06-03T15:00:00+05:30",
+    "messages": [
+      {
+        "from": "sarah.lin@nimbuslabs.dev",
+        "to": [
+          "marcus.webb@nimbuslabs.dev",
+          "priya.nair@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-03T15:00:00+05:30",
+        "body": "Draft copy for the onboarding checklist (PROJ-092) attached. Low priority, no rush \u2014 just wanted it in front of you both before it goes in the backlog."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1012",
+    "subject": "Congrats on shipping the e2e test suite!",
+    "participants": [
+      "marcus.webb@nimbuslabs.dev",
+      "priya.nair@nimbuslabs.dev"
+    ],
+    "labels": [
+      "team"
+    ],
+    "unread": false,
+    "date": "2025-06-11T09:00:00+05:30",
+    "messages": [
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "priya.nair@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-11T09:00:00+05:30",
+        "body": "The Cypress e2e suite for login is a great addition, already caught real issues in review. Nice work."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1013",
+    "subject": "All-hands next week - agenda",
+    "participants": [
+      "hr-announce@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev",
+      "rahul.verma@nimbuslabs.dev",
+      "sarah.lin@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev",
+      "priya.nair@nimbuslabs.dev",
+      "devon.brooks@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "team"
+    ],
+    "unread": false,
+    "date": "2025-06-16T09:00:00+05:30",
+    "messages": [
+      {
+        "from": "hr-announce@nimbuslabs.dev",
+        "to": [
+          "all-hands@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-16T09:00:00+05:30",
+        "body": "All-hands is next Tuesday 11 AM IST / 10:30 PM PT (recorded for other timezones). Agenda: Q2 recap, Q3 roadmap preview, new hire intros."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1014",
+    "subject": "[pulse-api] Review requested on #136: PROJ-101: Add SSO login endpoint",
+    "participants": [
+      "notifications@github.com",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-14T10:05:00+05:30",
+    "messages": [
+      {
+        "from": "notifications@github.com",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-14T10:05:00+05:30",
+        "body": "marcus.webb was requested for review on pulse-api#136. View the pull request to see the diff and leave comments."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1015",
+    "subject": "[pulse-infra] Review requested on #63: INFRA-63: Add connection pooling for main database",
+    "participants": [
+      "notifications@github.com",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "urgent"
+    ],
+    "unread": true,
+    "date": "2025-06-17T10:05:00+05:30",
+    "messages": [
+      {
+        "from": "notifications@github.com",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-17T10:05:00+05:30",
+        "body": "devon.brooks requested your review on pulse-infra#63. This PR is marked as addressing a critical production incident (BUG-199)."
+      }
+    ],
+    "flagged": true
+  },
+  {
+    "id": "thread_1016",
+    "subject": "[Jira] BUG-199 assigned to you",
+    "participants": [
+      "jira-notifications@nimbuslabs-atlassian.net",
+      "devon.brooks@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "urgent"
+    ],
+    "unread": false,
+    "date": "2025-06-17T09:05:00+05:30",
+    "messages": [
+      {
+        "from": "jira-notifications@nimbuslabs-atlassian.net",
+        "to": [
+          "devon.brooks@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-17T09:05:00+05:30",
+        "body": "marcus.webb assigned BUG-199 (Prod DB latency spikes during peak hours) to you. Priority: Critical. Due: 2025-06-18."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1017",
+    "subject": "Invitation: Sprint 15 Planning @ Wed Jun 18, 2 PM - 3 PM (IST)",
+    "participants": [
+      "calendar-notifications@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-16T10:00:00+05:30",
+    "messages": [
+      {
+        "from": "calendar-notifications@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-16T10:00:00+05:30",
+        "body": "marcus.webb has invited you to 'Sprint 15 Planning', Wed Jun 18, 2:00 PM - 3:00 PM IST. Location: Zoom."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1018",
+    "subject": "Interview feedback needed: Backend Engineer candidate",
+    "participants": [
+      "marcus.webb@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-09T16:00:00+05:30",
+    "messages": [
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-09T16:00:00+05:30",
+        "body": "Thanks for doing the technical interview yesterday \u2014 could you get your written feedback in the tracker by Friday? Panel debrief is Monday."
+      }
+    ],
+    "flagged": true
+  },
+  {
+    "id": "thread_1019",
+    "subject": "Customer question: CSV export row limits",
+    "participants": [
+      "tom.reyes@vectoranalytics.io",
+      "sarah.lin@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "external"
+    ],
+    "unread": false,
+    "date": "2025-06-10T09:10:00+05:30",
+    "messages": [
+      {
+        "from": "tom.reyes@vectoranalytics.io",
+        "to": [
+          "sarah.lin@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-09T20:00:00-04:00",
+        "body": "One of our analysts noticed a CSV export stopped at exactly 10,000 rows with no error. Is that an expected limit?"
+      },
+      {
+        "from": "sarah.lin@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-10T09:10:00+05:30",
+        "body": "Forwarding \u2014 this matches BUG-212. Can you confirm for me whether the fix timeline is the new export work (PROJ-125) so I can respond to Tom with a date?"
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1020",
+    "subject": "Expense report reminder - June",
+    "participants": [
+      "finance-noreply@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-01T09:00:00+05:30",
+    "messages": [
+      {
+        "from": "finance-noreply@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-01T09:00:00+05:30",
+        "body": "Reminder: submit any outstanding expense reports for May by June 5th."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1021",
+    "subject": "Welcome to the team, Kavya!",
+    "participants": [
+      "sarah.lin@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev",
+      "rahul.verma@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev",
+      "priya.nair@nimbuslabs.dev",
+      "devon.brooks@nimbuslabs.dev"
+    ],
+    "labels": [
+      "team"
+    ],
+    "unread": false,
+    "date": "2025-06-12T09:05:00+05:30",
+    "messages": [
+      {
+        "from": "sarah.lin@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev",
+          "rahul.verma@nimbuslabs.dev",
+          "marcus.webb@nimbuslabs.dev",
+          "priya.nair@nimbuslabs.dev",
+          "devon.brooks@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-12T09:05:00+05:30",
+        "body": "Please join me in welcoming Kavya Menon to the support team, starting Monday. She'll be shadowing the team during onboarding week."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1022",
+    "subject": "Follow up: Safari rendering bug from support ticket #4821",
+    "participants": [
+      "priya.nair@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "urgent"
+    ],
+    "unread": true,
+    "date": "2025-06-16T13:30:00+05:30",
+    "messages": [
+      {
+        "from": "priya.nair@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-16T13:30:00+05:30",
+        "body": "A customer filed support ticket #4821 about blank charts on Safari \u2014 matches what I just reproduced and filed as BUG-207. Support is asking for an ETA, can you give me one once you've had a look?"
+      }
+    ],
+    "flagged": true
+  },
+  {
+    "id": "thread_1023",
+    "subject": "Postmortem draft: websocket memory leak (BUG-213)",
+    "participants": [
+      "devon.brooks@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-07T11:00:00+05:30",
+    "messages": [
+      {
+        "from": "devon.brooks@nimbuslabs.dev",
+        "to": [
+          "marcus.webb@nimbuslabs.dev",
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-07T11:00:00+05:30",
+        "body": "Draft postmortem for the websocket memory leak attached. Timeline, root cause, and the load-test we added to prevent regressions. Let me know if I'm missing anything before I share it more broadly."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1024",
+    "subject": "Reminder: submit Sprint 14 retro notes",
+    "participants": [
+      "marcus.webb@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev",
+      "rahul.verma@nimbuslabs.dev",
+      "priya.nair@nimbuslabs.dev",
+      "devon.brooks@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-18T08:15:00+05:30",
+    "messages": [
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev",
+          "rahul.verma@nimbuslabs.dev",
+          "priya.nair@nimbuslabs.dev",
+          "devon.brooks@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-18T08:15:00+05:30",
+        "body": "Sprint 14 ends Friday \u2014 please add your retro notes (what went well / what didn't) to the doc before the retro on Friday afternoon."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1025",
+    "subject": "Vendor security questionnaire - due Friday",
+    "participants": [
+      "marcus.webb@nimbuslabs.dev",
+      "devon.brooks@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work",
+      "urgent"
+    ],
+    "unread": false,
+    "date": "2025-06-17T10:30:00+05:30",
+    "messages": [
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "devon.brooks@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-15T14:00:00+05:30",
+        "body": "A prospective customer sent a security questionnaire covering our infra practices (encryption at rest, backup cadence, incident response). Due Friday \u2014 can you draft answers for the infra sections?"
+      },
+      {
+        "from": "devon.brooks@nimbuslabs.dev",
+        "to": [
+          "marcus.webb@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-17T10:30:00+05:30",
+        "body": "Draft answers attached, covering backups (now automated nightly per #66), key rotation (INFRA-65), and incident response process. Will finalize once you review."
+      }
+    ],
+    "flagged": true
+  },
+  {
+    "id": "thread_1026",
+    "subject": "1:1 notes - June 16",
+    "participants": [
+      "marcus.webb@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-16T18:00:00+05:30",
+    "messages": [
+      {
+        "from": "marcus.webb@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-16T18:00:00+05:30",
+        "body": "Notes from today: SSO on track for Friday demo, good progress on INFRA-56. Discussed you leading the SAML follow-on (PROJ-141) next sprint. Also \u2014 thanks for absorbing the Safari bug on top of everything, will keep an eye on your load this week."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1027",
+    "subject": "Nimbus Labs monthly engineering digest - June",
+    "participants": [
+      "eng-digest-noreply@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "team"
+    ],
+    "unread": true,
+    "date": "2025-06-01T08:00:00+05:30",
+    "messages": [
+      {
+        "from": "eng-digest-noreply@nimbuslabs.dev",
+        "to": [
+          "all-eng@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-01T08:00:00+05:30",
+        "body": "This month: websocket memory leak postmortem, new CI staging auto-deploy rollout, and a look back at Sprint 13 velocity trends."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1028",
+    "subject": "Follow-up: BUG-210 login FOUC - confirmed fix in review",
+    "participants": [
+      "sarah.lin@nimbuslabs.dev",
+      "rahul.verma@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-15T11:00:00+05:30",
+    "messages": [
+      {
+        "from": "sarah.lin@nimbuslabs.dev",
+        "to": [
+          "rahul.verma@nimbuslabs.dev"
+        ],
+        "cc": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "date": "2025-06-15T11:00:00+05:30",
+        "body": "Thanks for the quick turnaround on the login page flash issue \u2014 support can close out the customer ticket once #146 merges."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1029",
+    "subject": "Notice: scheduled maintenance window this weekend",
+    "participants": [
+      "devon.brooks@nimbuslabs.dev",
+      "aisha.khan@nimbuslabs.dev",
+      "rahul.verma@nimbuslabs.dev",
+      "marcus.webb@nimbuslabs.dev",
+      "priya.nair@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-17T12:00:00+05:30",
+    "messages": [
+      {
+        "from": "devon.brooks@nimbuslabs.dev",
+        "to": [
+          "aisha.khan@nimbuslabs.dev",
+          "rahul.verma@nimbuslabs.dev",
+          "marcus.webb@nimbuslabs.dev",
+          "priya.nair@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-17T12:00:00+05:30",
+        "body": "Postgres upgrade planning (INFRA-62) will need a short maintenance window this weekend, likely Saturday 2-3 AM IST. Will confirm exact timing once BUG-199 is fully resolved."
+      }
+    ],
+    "flagged": false
+  },
+  {
+    "id": "thread_1030",
+    "subject": "[Jira] New ticket created: PROJ-141",
+    "participants": [
+      "jira-notifications@nimbuslabs-atlassian.net",
+      "aisha.khan@nimbuslabs.dev"
+    ],
+    "labels": [
+      "work"
+    ],
+    "unread": false,
+    "date": "2025-06-17T11:05:00+05:30",
+    "messages": [
+      {
+        "from": "jira-notifications@nimbuslabs-atlassian.net",
+        "to": [
+          "aisha.khan@nimbuslabs.dev"
+        ],
+        "cc": [],
+        "date": "2025-06-17T11:05:00+05:30",
+        "body": "sarah.lin created PROJ-141 (Support SAML alongside OIDC for SSO) and assigned it to you. Sprint: Sprint 15. Due: 2025-07-04."
+      }
+    ],
+    "flagged": false
+  }
+]

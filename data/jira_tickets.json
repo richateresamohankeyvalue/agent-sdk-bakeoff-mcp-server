@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "PROJ-101",
+    "project": "PROJ",
+    "type": "Story",
+    "title": "Add SSO login endpoint",
+    "description": "Implement SAML/OIDC-based SSO login so enterprise customers can authenticate via their own identity provider. Needed before the Vector Analytics demo.",
+    "status": "In Review",
+    "priority": "High",
+    "assignee": "aisha.khan",
+    "reporter": "sarah.lin",
+    "sprint": "Sprint 14",
+    "story_points": 8,
+    "completed_date": null,
+    "labels": [
+      "auth",
+      "backend",
+      "enterprise"
+    ],
+    "created": "2025-06-02T09:12:00+05:30",
+    "updated": "2025-06-18T09:05:00+05:30",
+    "due_date": "2025-06-20",
+    "linked_tickets": [
+      "PROJ-102",
+      "PROJ-141"
+    ],
+    "comments": [
+      {
+        "author": "marcus.webb",
+        "body": "Requested a couple of changes on the PR around token refresh handling. Should be quick to address.",
+        "created": "2025-06-17T16:40:00+05:30"
+      },
+      {
+        "author": "sarah.lin",
+        "body": "Client demo is Friday morning \u2014 can we get this merged by EOD Thursday?",
+        "created": "2025-06-18T08:30:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "aisha.khan",
+        "at": "2025-06-09T10:00:00+05:30"
+      },
+      {
+        "from": "In Progress",
+        "to": "In Review",
+        "by": "aisha.khan",
+        "at": "2025-06-16T14:20:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "PROJ-102",
+    "project": "PROJ",
+    "type": "Task",
+    "title": "Add SSO config toggle to admin settings UI",
+    "description": "Add an admin-facing toggle to enable/disable SSO per workspace once PROJ-101 lands.",
+    "status": "In Progress",
+    "priority": "Medium",
+    "assignee": "rahul.verma",
+    "reporter": "sarah.lin",
+    "sprint": "Sprint 14",
+    "story_points": 3,
+    "completed_date": null,
+    "labels": [
+      "frontend",
+      "enterprise"
+    ],
+    "created": "2025-06-05T11:00:00+05:30",
+    "updated": "2025-06-17T17:10:00+05:30",
+    "due_date": "2025-06-20",
+    "linked_tickets": [
+      "PROJ-101"
+    ],
+    "comments": [
+      {
+        "author": "rahul.verma",
+        "body": "Blocked on PROJ-101 merging so I can wire up the real config flag. Building against a mock for now.",
+        "created": "2025-06-17T17:10:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "rahul.verma",
+        "at": "2025-06-12T10:30:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "PROJ-118",
+    "project": "PROJ",
+    "type": "Story",
+    "title": "Refactor notification service to use event queue",
+    "description": "Move in-app and email notification dispatch off the request path onto an async event queue to fix delivery lag.",
+    "status": "Done",
+    "priority": "Medium",
+    "assignee": "aisha.khan",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 13",
+    "story_points": 5,
+    "completed_date": "2025-06-17",
+    "labels": [
+      "backend",
+      "notifications"
+    ],
+    "created": "2025-05-27T10:00:00+05:30",
+    "updated": "2025-06-17T19:05:00+05:30",
+    "due_date": "2025-06-17",
+    "linked_tickets": [
+      "BUG-209"
+    ],
+    "comments": [
+      {
+        "author": "marcus.webb",
+        "body": "Approved and merged. Great cleanup \u2014 notification lag should be gone now.",
+        "created": "2025-06-17T18:55:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "aisha.khan",
+        "at": "2025-05-29T09:40:00+05:30"
+      },
+      {
+        "from": "In Progress",
+        "to": "In Review",
+        "by": "aisha.khan",
+        "at": "2025-06-13T15:00:00+05:30"
+      },
+      {
+        "from": "In Review",
+        "to": "Done",
+        "by": "marcus.webb",
+        "at": "2025-06-17T19:05:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "PROJ-125",
+    "project": "PROJ",
+    "type": "Story",
+    "title": "Add CSV export for reports",
+    "description": "Let users export any report view to CSV, respecting current filters and column selection.",
+    "status": "In Progress",
+    "priority": "Medium",
+    "assignee": "aisha.khan",
+    "reporter": "sarah.lin",
+    "sprint": "Sprint 14",
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "backend",
+      "reports"
+    ],
+    "created": "2025-06-10T09:30:00+05:30",
+    "updated": "2025-06-18T10:15:00+05:30",
+    "due_date": "2025-06-23",
+    "linked_tickets": [
+      "PROJ-126",
+      "BUG-212"
+    ],
+    "comments": [
+      {
+        "author": "aisha.khan",
+        "body": "Starting on the export endpoint today. Streaming response so large reports don't time out.",
+        "created": "2025-06-18T10:15:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "aisha.khan",
+        "at": "2025-06-18T10:10:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "PROJ-126",
+    "project": "PROJ",
+    "type": "Task",
+    "title": "Add export-to-CSV button to reports page",
+    "description": "Frontend button + loading state that calls the new export endpoint from PROJ-125.",
+    "status": "To Do",
+    "priority": "Medium",
+    "assignee": "rahul.verma",
+    "reporter": "sarah.lin",
+    "sprint": "Sprint 14",
+    "story_points": 2,
+    "completed_date": null,
+    "labels": [
+      "frontend",
+      "reports"
+    ],
+    "created": "2025-06-10T09:35:00+05:30",
+    "updated": "2025-06-10T09:35:00+05:30",
+    "due_date": "2025-06-24",
+    "linked_tickets": [
+      "PROJ-125"
+    ],
+    "comments": [],
+    "status_history": [
+      {
+        "from": "Backlog",
+        "to": "To Do",
+        "by": "marcus.webb",
+        "at": "2025-06-13T09:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "PROJ-130",
+    "project": "PROJ",
+    "type": "Story",
+    "title": "Add dark mode toggle",
+    "description": "Add a user-level dark mode preference with a toggle in account settings and persisted theme choice.",
+    "status": "In Review",
+    "priority": "Low",
+    "assignee": "rahul.verma",
+    "reporter": "rahul.verma",
+    "sprint": "Sprint 14",
+    "story_points": 3,
+    "completed_date": null,
+    "labels": [
+      "frontend",
+      "ui"
+    ],
+    "created": "2025-06-08T14:00:00+05:30",
+    "updated": "2025-06-17T12:40:00+05:30",
+    "due_date": "2025-06-19",
+    "linked_tickets": [],
+    "comments": [
+      {
+        "author": "rahul.verma",
+        "body": "PR is up, tagged aisha.khan for backend review of the preference storage endpoint.",
+        "created": "2025-06-17T12:40:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "In Progress",
+        "to": "In Review",
+        "by": "rahul.verma",
+        "at": "2025-06-17T12:35:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "PROJ-090",
+    "project": "PROJ",
+    "type": "Epic",
+    "title": "Improve onboarding flow",
+    "description": "Reduce time-to-first-dashboard for new signups. Umbrella epic covering checklist widget, sample data seeding, and revised copy.",
+    "status": "Backlog",
+    "priority": "Low",
+    "assignee": "marcus.webb",
+    "reporter": "sarah.lin",
+    "sprint": null,
+    "story_points": null,
+    "completed_date": null,
+    "labels": [
+      "onboarding",
+      "epic"
+    ],
+    "created": "2025-05-15T09:00:00+05:30",
+    "updated": "2025-06-01T09:00:00+05:30",
+    "due_date": null,
+    "linked_tickets": [
+      "PROJ-091",
+      "PROJ-092"
+    ],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "PROJ-091",
+    "project": "PROJ",
+    "type": "Story",
+    "title": "Add onboarding checklist widget",
+    "description": "Show a dismissible checklist on first login guiding users through key setup steps.",
+    "status": "Backlog",
+    "priority": "Low",
+    "assignee": "priya.nair",
+    "reporter": "marcus.webb",
+    "sprint": null,
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "onboarding"
+    ],
+    "created": "2025-05-15T09:10:00+05:30",
+    "updated": "2025-05-15T09:10:00+05:30",
+    "due_date": null,
+    "linked_tickets": [
+      "PROJ-090"
+    ],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "PROJ-092",
+    "project": "PROJ",
+    "type": "Task",
+    "title": "Write onboarding checklist copy",
+    "description": "Draft the copy for each onboarding checklist step, reviewed with support team.",
+    "status": "Backlog",
+    "priority": "Low",
+    "assignee": "sarah.lin",
+    "reporter": "marcus.webb",
+    "sprint": null,
+    "story_points": 1,
+    "completed_date": null,
+    "labels": [
+      "onboarding",
+      "content"
+    ],
+    "created": "2025-05-15T09:12:00+05:30",
+    "updated": "2025-05-15T09:12:00+05:30",
+    "due_date": null,
+    "linked_tickets": [
+      "PROJ-090"
+    ],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "PROJ-140",
+    "project": "PROJ",
+    "type": "Story",
+    "title": "Add multi-workspace switcher",
+    "description": "Allow users who belong to more than one workspace to switch between them from the top nav without logging out.",
+    "status": "To Do",
+    "priority": "Medium",
+    "assignee": "marcus.webb",
+    "reporter": "sarah.lin",
+    "sprint": "Sprint 15",
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "frontend",
+      "backend"
+    ],
+    "created": "2025-06-16T10:00:00+05:30",
+    "updated": "2025-06-16T10:00:00+05:30",
+    "due_date": "2025-07-04",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "PROJ-141",
+    "project": "PROJ",
+    "type": "Story",
+    "title": "Support SAML alongside OIDC for SSO",
+    "description": "Extend PROJ-101's SSO login to also support SAML 2.0 for customers whose IdP doesn't offer OIDC.",
+    "status": "To Do",
+    "priority": "Medium",
+    "assignee": "aisha.khan",
+    "reporter": "sarah.lin",
+    "sprint": "Sprint 15",
+    "story_points": 8,
+    "completed_date": null,
+    "labels": [
+      "auth",
+      "backend",
+      "enterprise"
+    ],
+    "created": "2025-06-17T11:00:00+05:30",
+    "updated": "2025-06-17T11:00:00+05:30",
+    "due_date": "2025-07-04",
+    "linked_tickets": [
+      "PROJ-101"
+    ],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "PROJ-142",
+    "project": "PROJ",
+    "type": "Task",
+    "title": "Update API docs for v2 endpoints",
+    "description": "Public API docs are still describing v1 response shapes for tickets and reports endpoints.",
+    "status": "To Do",
+    "priority": "Low",
+    "assignee": "priya.nair",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 14",
+    "story_points": 2,
+    "completed_date": null,
+    "labels": [
+      "docs"
+    ],
+    "created": "2025-06-11T09:00:00+05:30",
+    "updated": "2025-06-11T09:00:00+05:30",
+    "due_date": "2025-06-25",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "PROJ-150",
+    "project": "PROJ",
+    "type": "Story",
+    "title": "Add usage analytics dashboard",
+    "description": "Internal-facing dashboard showing per-workspace feature usage, for the growth team.",
+    "status": "In Progress",
+    "priority": "High",
+    "assignee": "rahul.verma",
+    "reporter": "sarah.lin",
+    "sprint": "Sprint 14",
+    "story_points": 8,
+    "completed_date": null,
+    "labels": [
+      "frontend",
+      "analytics"
+    ],
+    "created": "2025-06-04T09:00:00+05:30",
+    "updated": "2025-06-18T09:50:00+05:30",
+    "due_date": "2025-06-19",
+    "linked_tickets": [],
+    "comments": [
+      {
+        "author": "rahul.verma",
+        "body": "PR is up but CI is failing on the snapshot tests \u2014 investigating this morning.",
+        "created": "2025-06-18T09:50:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "rahul.verma",
+        "at": "2025-06-10T10:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "PROJ-151",
+    "project": "PROJ",
+    "type": "Task",
+    "title": "Add export to PDF option",
+    "description": "Extend the reports export menu with a PDF option in addition to CSV.",
+    "status": "Backlog",
+    "priority": "Low",
+    "assignee": "aisha.khan",
+    "reporter": "sarah.lin",
+    "sprint": null,
+    "story_points": 3,
+    "completed_date": null,
+    "labels": [
+      "backend",
+      "reports"
+    ],
+    "created": "2025-06-12T09:00:00+05:30",
+    "updated": "2025-06-12T09:00:00+05:30",
+    "due_date": null,
+    "linked_tickets": [
+      "PROJ-125"
+    ],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "INFRA-56",
+    "project": "INFRA",
+    "type": "Task",
+    "title": "Add rate limiting to API gateway",
+    "description": "Add per-workspace request rate limiting at the gateway to protect the API from noisy-neighbor traffic spikes.",
+    "status": "In Progress",
+    "priority": "High",
+    "assignee": "aisha.khan",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 14",
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "infra",
+      "api"
+    ],
+    "created": "2025-06-06T09:00:00+05:30",
+    "updated": "2025-06-18T08:15:00+05:30",
+    "due_date": "2025-06-20",
+    "linked_tickets": [],
+    "comments": [
+      {
+        "author": "devon.brooks",
+        "body": "This is blocking my read-replica rollout (INFRA-64) and Rahul's usage dashboard load testing \u2014 flagging as blocked pending infra change approval.",
+        "created": "2025-06-18T08:05:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "aisha.khan",
+        "at": "2025-06-11T09:30:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "INFRA-57",
+    "project": "INFRA",
+    "type": "Task",
+    "title": "Set up staging environment auto-deploy",
+    "description": "Auto-deploy merged main branch commits to staging within 5 minutes, replacing the manual deploy script.",
+    "status": "In Review",
+    "priority": "Medium",
+    "assignee": "devon.brooks",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 14",
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "infra",
+      "ci-cd"
+    ],
+    "created": "2025-06-03T09:00:00+05:30",
+    "updated": "2025-06-17T14:00:00+05:30",
+    "due_date": "2025-06-19",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": [
+      {
+        "from": "In Progress",
+        "to": "In Review",
+        "by": "devon.brooks",
+        "at": "2025-06-17T14:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "INFRA-60",
+    "project": "INFRA",
+    "type": "Bug",
+    "title": "CI pipeline flaky on integration test suite",
+    "description": "pulse-infra integration tests fail intermittently (~1 in 4 runs) with a connection reset error, blocking PR merges.",
+    "status": "In Progress",
+    "priority": "High",
+    "assignee": "devon.brooks",
+    "reporter": "aisha.khan",
+    "sprint": "Sprint 14",
+    "story_points": 3,
+    "completed_date": null,
+    "labels": [
+      "infra",
+      "ci-cd"
+    ],
+    "created": "2025-06-15T10:00:00+05:30",
+    "updated": "2025-06-18T07:50:00+05:30",
+    "due_date": "2025-06-19",
+    "linked_tickets": [
+      "INFRA-56"
+    ],
+    "comments": [
+      {
+        "author": "devon.brooks",
+        "body": "Looks like the test DB container isn't fully ready before the suite starts. Adding a healthcheck wait.",
+        "created": "2025-06-18T07:50:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "devon.brooks",
+        "at": "2025-06-16T09:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "INFRA-61",
+    "project": "INFRA",
+    "type": "Task",
+    "title": "Migrate logging to structured JSON",
+    "description": "Switch all services from plaintext logs to structured JSON so they can be indexed properly in the log pipeline.",
+    "status": "To Do",
+    "priority": "Low",
+    "assignee": "marcus.webb",
+    "reporter": "devon.brooks",
+    "sprint": "Sprint 15",
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "infra",
+      "observability"
+    ],
+    "created": "2025-06-14T09:00:00+05:30",
+    "updated": "2025-06-14T09:00:00+05:30",
+    "due_date": "2025-07-04",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "INFRA-62",
+    "project": "INFRA",
+    "type": "Task",
+    "title": "Upgrade Postgres to v16",
+    "description": "Upgrade the primary database from Postgres 14 to 16 to pick up performance improvements and stay on a supported version.",
+    "status": "Backlog",
+    "priority": "Medium",
+    "assignee": "devon.brooks",
+    "reporter": "marcus.webb",
+    "sprint": null,
+    "story_points": 8,
+    "completed_date": null,
+    "labels": [
+      "infra",
+      "database"
+    ],
+    "created": "2025-06-01T09:00:00+05:30",
+    "updated": "2025-06-01T09:00:00+05:30",
+    "due_date": null,
+    "linked_tickets": [
+      "INFRA-63"
+    ],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "INFRA-63",
+    "project": "INFRA",
+    "type": "Task",
+    "title": "Add connection pooling for main database",
+    "description": "Introduce pgbouncer in front of the primary Postgres instance to fix connection exhaustion during peak traffic.",
+    "status": "In Progress",
+    "priority": "Critical",
+    "assignee": "devon.brooks",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 14",
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "infra",
+      "database",
+      "incident"
+    ],
+    "created": "2025-06-17T09:00:00+05:30",
+    "updated": "2025-06-18T09:00:00+05:30",
+    "due_date": "2025-06-18",
+    "linked_tickets": [
+      "BUG-199"
+    ],
+    "comments": [
+      {
+        "author": "marcus.webb",
+        "body": "This is the fix for BUG-199. Prioritize over everything else non-critical today.",
+        "created": "2025-06-17T20:10:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "devon.brooks",
+        "at": "2025-06-17T09:30:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "INFRA-64",
+    "project": "INFRA",
+    "type": "Task",
+    "title": "Set up read replica for analytics queries",
+    "description": "Offload heavy analytics dashboard queries to a read replica so they stop contending with transactional traffic.",
+    "status": "Backlog",
+    "priority": "Medium",
+    "assignee": "devon.brooks",
+    "reporter": "marcus.webb",
+    "sprint": null,
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "infra",
+      "database"
+    ],
+    "created": "2025-06-09T09:00:00+05:30",
+    "updated": "2025-06-18T08:05:00+05:30",
+    "due_date": null,
+    "linked_tickets": [
+      "INFRA-56"
+    ],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "INFRA-65",
+    "project": "INFRA",
+    "type": "Task",
+    "title": "Rotate API signing keys",
+    "description": "Quarterly rotation of the JWT signing keys used for API auth tokens.",
+    "status": "Done",
+    "priority": "Medium",
+    "assignee": "marcus.webb",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 13",
+    "story_points": 2,
+    "completed_date": "2025-06-05",
+    "labels": [
+      "infra",
+      "security"
+    ],
+    "created": "2025-05-28T09:00:00+05:30",
+    "updated": "2025-06-05T15:00:00+05:30",
+    "due_date": "2025-06-05",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "marcus.webb",
+        "at": "2025-06-03T09:00:00+05:30"
+      },
+      {
+        "from": "In Progress",
+        "to": "Done",
+        "by": "marcus.webb",
+        "at": "2025-06-05T15:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "BUG-199",
+    "project": "BUG",
+    "type": "Bug",
+    "title": "Prod DB latency spikes during peak hours",
+    "description": "Dashboard query latency spikes to 8-12s during 10-11 AM PT peak traffic, causing timeouts for several customers including Vector Analytics.",
+    "status": "In Progress",
+    "priority": "Critical",
+    "assignee": "devon.brooks",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 14",
+    "story_points": 5,
+    "completed_date": null,
+    "labels": [
+      "incident",
+      "database",
+      "customer-impact"
+    ],
+    "created": "2025-06-17T08:30:00+05:30",
+    "updated": "2025-06-18T09:10:00+05:30",
+    "due_date": "2025-06-18",
+    "linked_tickets": [
+      "INFRA-63"
+    ],
+    "comments": [
+      {
+        "author": "marcus.webb",
+        "body": "Escalated \u2014 Vector Analytics has emailed twice about this. Fix is INFRA-63, connection pooling PR is up for review.",
+        "created": "2025-06-18T09:10:00+05:30"
+      },
+      {
+        "author": "devon.brooks",
+        "body": "Root cause confirmed as connection exhaustion, not query plan regression. Pooling should resolve it.",
+        "created": "2025-06-17T21:00:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "devon.brooks",
+        "at": "2025-06-17T09:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "BUG-207",
+    "project": "BUG",
+    "type": "Bug",
+    "title": "Dashboard charts not rendering on Safari",
+    "description": "Line and bar charts on the main dashboard render blank on Safari 17+ due to a canvas sizing issue; confirmed fine on Chrome/Firefox.",
+    "status": "In Progress",
+    "priority": "High",
+    "assignee": "aisha.khan",
+    "reporter": "priya.nair",
+    "sprint": "Sprint 14",
+    "story_points": 3,
+    "completed_date": null,
+    "labels": [
+      "frontend",
+      "bug",
+      "safari"
+    ],
+    "created": "2025-06-16T13:20:00+05:30",
+    "updated": "2025-06-18T09:30:00+05:30",
+    "due_date": "2025-06-18",
+    "linked_tickets": [],
+    "comments": [
+      {
+        "author": "priya.nair",
+        "body": "Repros consistently on Safari 17.4 and 17.5, macOS Sonoma. Screenshots attached in the bug report.",
+        "created": "2025-06-16T13:25:00+05:30"
+      },
+      {
+        "author": "aisha.khan",
+        "body": "Found it \u2014 canvas width is 0 on first paint under Safari's layout timing. PR up with a fix + regression test.",
+        "created": "2025-06-18T09:30:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "To Do",
+        "to": "In Progress",
+        "by": "aisha.khan",
+        "at": "2025-06-17T10:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "BUG-208",
+    "project": "BUG",
+    "type": "Bug",
+    "title": "Export button disabled state incorrect on mobile",
+    "description": "The report export button stays visually enabled but is unclickable on mobile widths below 480px.",
+    "status": "To Do",
+    "priority": "Medium",
+    "assignee": "rahul.verma",
+    "reporter": "priya.nair",
+    "sprint": "Sprint 14",
+    "story_points": 1,
+    "completed_date": null,
+    "labels": [
+      "frontend",
+      "bug",
+      "mobile"
+    ],
+    "created": "2025-06-14T11:00:00+05:30",
+    "updated": "2025-06-14T11:00:00+05:30",
+    "due_date": "2025-06-21",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "BUG-209",
+    "project": "BUG",
+    "type": "Bug",
+    "title": "Slack notification duplicated on ticket status close",
+    "description": "Closing a ticket sometimes fires the Slack notification twice due to a duplicate event on the old notification path.",
+    "status": "Done",
+    "priority": "Low",
+    "assignee": "aisha.khan",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 13",
+    "story_points": 2,
+    "completed_date": "2025-06-17",
+    "labels": [
+      "backend",
+      "notifications"
+    ],
+    "created": "2025-06-01T10:00:00+05:30",
+    "updated": "2025-06-17T19:10:00+05:30",
+    "due_date": "2025-06-10",
+    "linked_tickets": [
+      "PROJ-118"
+    ],
+    "comments": [
+      {
+        "author": "aisha.khan",
+        "body": "Fixed as part of the PROJ-118 event-queue refactor \u2014 the old duplicate-firing code path no longer exists.",
+        "created": "2025-06-17T19:10:00+05:30"
+      }
+    ],
+    "status_history": [
+      {
+        "from": "In Progress",
+        "to": "Done",
+        "by": "aisha.khan",
+        "at": "2025-06-17T19:10:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "BUG-210",
+    "project": "BUG",
+    "type": "Bug",
+    "title": "Login page flashes unstyled content",
+    "description": "Brief flash of unstyled HTML on the login page before CSS loads, most visible on slow connections.",
+    "status": "In Review",
+    "priority": "Medium",
+    "assignee": "rahul.verma",
+    "reporter": "sarah.lin",
+    "sprint": "Sprint 14",
+    "story_points": 2,
+    "completed_date": null,
+    "labels": [
+      "frontend",
+      "bug"
+    ],
+    "created": "2025-06-13T09:00:00+05:30",
+    "updated": "2025-06-17T11:00:00+05:30",
+    "due_date": "2025-06-19",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": [
+      {
+        "from": "In Progress",
+        "to": "In Review",
+        "by": "rahul.verma",
+        "at": "2025-06-17T11:00:00+05:30"
+      }
+    ]
+  },
+  {
+    "id": "BUG-211",
+    "project": "BUG",
+    "type": "Bug",
+    "title": "Timezone offset wrong for EU users in calendar widget",
+    "description": "Meeting times shown in the in-app calendar widget are off by one hour for users in CET during DST \u2014 likely a stale UTC offset table.",
+    "status": "To Do",
+    "priority": "High",
+    "assignee": "aisha.khan",
+    "reporter": "priya.nair",
+    "sprint": "Sprint 14",
+    "story_points": 3,
+    "completed_date": null,
+    "labels": [
+      "backend",
+      "bug",
+      "timezone"
+    ],
+    "created": "2025-06-17T15:00:00+05:30",
+    "updated": "2025-06-17T15:00:00+05:30",
+    "due_date": "2025-06-20",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": []
+  },
+  {
+    "id": "BUG-212",
+    "project": "BUG",
+    "type": "Bug",
+    "title": "CSV export truncates rows over 10k",
+    "description": "Existing ad-hoc CSV export (legacy path) silently truncates at 10,000 rows with no warning to the user.",
+    "status": "Backlog",
+    "priority": "Medium",
+    "assignee": "aisha.khan",
+    "reporter": "priya.nair",
+    "sprint": null,
+    "story_points": 2,
+    "completed_date": null,
+    "labels": [
+      "backend",
+      "bug",
+      "reports"
+    ],
+    "created": "2025-06-09T10:00:00+05:30",
+    "updated": "2025-06-10T09:00:00+05:30",
+    "due_date": null,
+    "linked_tickets": [
+      "PROJ-125"
+    ],
+    "comments": [
+      {
+        "author": "aisha.khan",
+        "body": "Will be superseded by the streaming export in PROJ-125 \u2014 closing this once that ships.",
+        "created": "2025-06-10T09:00:00+05:30"
+      }
+    ],
+    "status_history": []
+  },
+  {
+    "id": "BUG-213",
+    "project": "BUG",
+    "type": "Bug",
+    "title": "Memory leak in websocket connection handler",
+    "description": "Long-lived websocket connections for live dashboard updates were leaking listener references, causing gradual memory growth in the API service.",
+    "status": "Done",
+    "priority": "High",
+    "assignee": "devon.brooks",
+    "reporter": "marcus.webb",
+    "sprint": "Sprint 13",
+    "story_points": 5,
+    "completed_date": "2025-06-06",
+    "labels": [
+      "backend",
+      "bug",
+      "performance"
+    ],
+    "created": "2025-05-30T09:00:00+05:30",
+    "updated": "2025-06-06T16:00:00+05:30",
+    "due_date": "2025-06-06",
+    "linked_tickets": [],
+    "comments": [],
+    "status_history": [
+      {
+        "from": "In Progress",
+        "to": "Done",
+        "by": "devon.brooks",
+        "at": "2025-06-06T16:00:00+05:30"
+      }
+    ]
+  }
+]

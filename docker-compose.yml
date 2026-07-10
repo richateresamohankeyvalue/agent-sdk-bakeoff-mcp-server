@@ -1,0 +1,17 @@
+services:
+  mcp-server:
+    build: .
+    container_name: pulse-assistant-mcp-server
+    ports:
+      - "${MCP_PORT:-8081}:${MCP_PORT:-8081}"
+    environment:
+      MCP_TRANSPORT: "${MCP_TRANSPORT:-sse}"
+      MCP_HOST: "0.0.0.0"
+      MCP_PORT: "${MCP_PORT:-8081}"
+      MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:-}"
+    volumes:
+      # Host-side edits to the mock dataset show up without rebuilding the
+      # image or restarting the container (server/data_store.py hot-reloads
+      # any file whose mtime changed).
+      - ./data:/app/data:ro
+    restart: unless-stopped
