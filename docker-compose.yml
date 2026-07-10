@@ -10,8 +10,7 @@ services:
       MCP_PORT: "${MCP_PORT:-8081}"
       MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:-}"
     volumes:
-      # Host-side edits to the mock dataset show up without rebuilding the
-      # image or restarting the container (server/data_store.py hot-reloads
-      # any file whose mtime changed).
-      - ./data:/app/data:ro
+      # Read-write: host-side edits show up live (hot-reload), and confirmed
+      # writes from the server persist back to these files, visible on the host.
+      - ./data:/app/data
     restart: unless-stopped

@@ -3,9 +3,13 @@
 Now that the server can run as a long-lived network service shared by several
 agent SDKs (rather than a fresh `uv run` per task), `maybe_reload()` re-reads any
 data file whose mtime has changed since it was last loaded — so editing the JSON
-on disk shows up without restarting the process. Only the read-only source
-collections are affected; `sent_log` and `pending_actions` (the in-memory audit
-trail / draft-write state) persist across a reload and across gated writes.
+on disk shows up without restarting the process.
+
+Confirmed writes (via confirm_action) are persisted straight back to the
+relevant data/*.json file, so the change is visible to the viewer and to any
+other process reading these files, not just this server's memory. This means
+confirmed writes permanently modify the dataset — commit data/ to git if you
+want an easy way back to a clean baseline for repeated test runs.
 """
 
 from __future__ import annotations
@@ -28,6 +32,20 @@ def _load(name: str) -> Any:
 
 def _now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _fictional_now_iso(today_str: str) -> str:
+    """'Now', but with the date pinned to the dataset's frozen `today` instead of
+    the real date — so new records (a posted Slack message, a sent email) land
+    on the right side of 'since=today'/'since=yesterday' filters instead of
+    landing in the real-world future relative to the dataset's own timeline."""
+    today = time_utils.get_today(today_str)
+    wall_clock = datetime.now(time_utils.DEFAULT_TZ)
+    return datetime(
+        today.year, today.month, today.day,
+        wall_clock.hour, wall_clock.minute, wall_clock.second,
+        tzinfo=time_utils.DEFAULT_TZ,
+    ).isoformat()
 
 
 class DataStore:
@@ -78,6 +96,24 @@ class DataStore:
             else:
                 setattr(self, self._SIMPLE_FILES[fname], _load(fname))
             self._mtimes[fname] = current_mtime
+
+    def _save(self, fname: str, data: Any) -> None:
+        """Write a data file back to disk and update our own tracked mtime, so
+        the next maybe_reload() doesn't immediately re-read the very thing we
+        just wrote (harmless if it did — same data — just a wasted read)."""
+        with open(DATA_DIR / fname, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+            f.write("\n")
+        self._mtimes[fname] = self._mtime(fname)
+
+    def _save_jira(self) -> None:
+        self._save("jira_tickets.json", self.jira_tickets)
+
+    def _save_slack(self) -> None:
+        self._save("slack_data.json", {"channels": self.slack_channels, "conversations": self.slack_conversations})
+
+    def _save_gmail(self) -> None:
+        self._save("gmail_threads.json", self.gmail_threads)
 
     @property
     def today_str(self) -> str:
@@ -249,11 +285,12 @@ class DataStore:
         return [m for m in results if q in m["text"].lower()]
 
     def _apply_post_slack_message(self, channel: str, message: str, user: str) -> dict:
+        ts = _fictional_now_iso(self.today_str)
         entry = {
             "channel": channel,
             "user": user,
             "text": message,
-            "ts": None,
+            "ts": ts,
         }
         self.sent_log.append({"type": "slack_message", **entry})
         conv = {
@@ -261,7 +298,7 @@ class DataStore:
             "type": "channel",
             "channel": channel,
             "messages": [{"id": f"msg_runtime_{len(self.sent_log)}", "user": user,
-                          "text": message, "ts": None, "mentions": []}],
+                          "text": message, "ts": ts, "mentions": []}],
         }
         self.slack_conversations.append(conv)
         return entry
@@ -326,6 +363,18 @@ class DataStore:
     def _apply_send_email(self, to: list[str], subject: str, body: str, sender: str) -> dict:
         entry = {"type": "email", "from": sender, "to": to, "subject": subject, "body": body}
         self.sent_log.append(entry)
+        ts = _fictional_now_iso(self.today_str)
+        thread = {
+            "id": f"thread_runtime_{len(self.gmail_threads) + 1}",
+            "subject": subject,
+            "participants": [sender, *to],
+            "labels": ["work"],
+            "unread": False,
+            "flagged": False,
+            "date": ts,
+            "messages": [{"from": sender, "to": to, "cc": [], "date": ts, "body": body}],
+        }
+        self.gmail_threads.append(thread)
         return entry
 
     # ---- Jira write ----
@@ -371,10 +420,13 @@ class DataStore:
         payload = record["payload"]
         if action_type == "update_jira_ticket":
             result = self._apply_update_jira_ticket(payload["ticket_id"], payload["fields"])
+            self._save_jira()
         elif action_type == "post_slack_message":
             result = self._apply_post_slack_message(payload["channel"], payload["message"], payload["user"])
+            self._save_slack()
         elif action_type == "send_email":
             result = self._apply_send_email(payload["to"], payload["subject"], payload["body"], payload["sender"])
+            self._save_gmail()
         else:
             return {"error": f"Unknown action_type '{action_type}'", "found": True}
         record["status"] = "confirmed"
