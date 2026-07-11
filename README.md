@@ -66,7 +66,7 @@ and vice versa — so grounded/no-hallucination behavior has something real to b
 | `get_github_prs(author, reviewer, status, repo, updated_since)` | read | List PRs, filtered by author/reviewer/status/repo/date |
 | `get_github_pr_detail(pr_id)` | read | Full PR: diff stats, review comments, CI status, linked ticket |
 | `get_github_commits(repo, author, since)` | read | Recent commits, filtered by repo/author/date |
-| `link_jira_to_github(ticket_id)` | read | Resolve a ticket to its linked PR(s), via commit-message scan |
+| `link_jira_to_github(ticket_id, pr_url)` | read | Resolve a ticket to its linked PR(s) via commit-message scan; if `pr_url` is given, also reports whether that specific PR matches |
 | `get_slack_messages(channel, user, mentions, since)` | read | Recent messages/DMs, filtered by channel/user/mentions/date |
 | `search_slack(query, channel, user, since)` | read | Full-text keyword search over Slack |
 | `post_slack_message(channel, message)` | write — gated | Draft a channel post; returns a `pending_action_id` |

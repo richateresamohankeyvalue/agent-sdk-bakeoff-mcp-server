@@ -177,17 +177,26 @@ def get_github_commits(
 
 
 @mcp.tool()
-def link_jira_to_github(ticket_id: str) -> dict:
+def link_jira_to_github(ticket_id: str, pr_url: str | None = None) -> dict:
     """Find the GitHub PR(s) linked to a Jira ticket, via commit messages
-    (e.g. 'PROJ-101: ...') and the PR's linked_jira_ticket field."""
+    (e.g. 'PROJ-101: ...') and the PR's linked_jira_ticket field. If pr_url is
+    given, also checks whether that specific PR is one of the linked ones."""
     store = get_store()
     ticket = store.find_ticket(ticket_id)
     if ticket is None:
         return _not_found("Jira ticket", ticket_id)
     prs = store.prs_for_ticket(ticket_id)
-    if not prs:
-        return {"ticket_id": ticket_id, "linked_prs": [], "message": "No linked GitHub PR found for this ticket."}
-    return {"ticket_id": ticket_id, "linked_prs": prs}
+    linked = [{**p, "url": store.pr_web_url(p)} for p in prs]
+    result = {
+        "ticket_id": ticket_id,
+        "linked_prs": linked,
+        "message": None if linked else "No linked GitHub PR found for this ticket.",
+    }
+    if pr_url is not None:
+        target = store.find_pr_by_url(pr_url)
+        result["pr_url"] = pr_url
+        result["pr_url_matches_ticket"] = target is not None and any(p["id"] == target["id"] for p in prs)
+    return result
 
 
 # ---------------------------------------------------------------------------

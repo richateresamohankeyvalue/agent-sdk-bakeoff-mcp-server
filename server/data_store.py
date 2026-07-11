@@ -219,6 +219,18 @@ class DataStore:
             results = [c for c in results if time_utils.parse_dt(c["date"]) >= bound]
         return sorted(results, key=lambda c: c["date"], reverse=True)
 
+    GITHUB_ORG = "nimbus-labs"
+
+    def pr_web_url(self, pr: dict) -> str:
+        return f"https://github.com/{self.GITHUB_ORG}/{pr['repo']}/pull/{pr['number']}"
+
+    def find_pr_by_url(self, pr_url: str) -> dict | None:
+        needle = pr_url.strip().rstrip("/").lower()
+        for p in self.github_prs:
+            if needle == self.pr_web_url(p).lower() or needle == p["id"].lower():
+                return p
+        return None
+
     def prs_for_ticket(self, ticket_id: str) -> list[dict]:
         ticket_id = ticket_id.upper()
         matched_numbers = {
