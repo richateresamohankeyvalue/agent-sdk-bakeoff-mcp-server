@@ -1,5 +1,8 @@
 """Slack Web API client — replaces the slack_data.json mock.
 
+Scoped to channels only (public + private) — DMs/group-DMs are deliberately
+excluded, not just unsupported.
+
 Known gaps vs. the old mock:
 - `conversations.history` only returns top-level channel messages; it does
   not walk into thread replies (that needs a per-thread `conversations.replies`
@@ -9,10 +12,11 @@ Known gaps vs. the old mock:
   isn't set, search_slack() falls back to scanning recent history
   (SLACK_DEFAULT_LOOKBACK_DAYS) and filtering client-side, which is narrower
   than real search.
-- Listing across every conversation the bot can see (no `channel` filter) is
-  one `conversations.history` call per conversation — a workspace with many
-  channels can trip Slack's per-method rate limit in a single tool call;
-  `_call()` retries once on 429 using the `Retry-After` header.
+- Listing across every conversation (no `channel` filter) is still one
+  `conversations.history` call per channel the bot is a member of — fine
+  for a bot in a handful of channels, but scales with however many it's
+  actually been invited to. `_call()` retries on 429 using the
+  `Retry-After` header as a backstop either way.
 """
 
 from __future__ import annotations
@@ -78,7 +82,6 @@ def _paginate(client: httpx.Client, method: str, items_key: str, **params: Any) 
 
 _user_cache: dict[str, dict] | None = None
 _channel_cache: dict[str, dict] | None = None
-_auth_identity_cache: str | None = None
 
 
 def _users(client: httpx.Client) -> dict[str, dict]:
@@ -96,16 +99,6 @@ def _username(client: httpx.Client, user_id: str | None) -> str | None:
     return (user or {}).get("name") or user_id
 
 
-def _auth_identity(client: httpx.Client) -> str | None:
-    """Username of the token's own identity — used to fill out the
-    "other" participant slot in DM conversations."""
-    global _auth_identity_cache
-    if _auth_identity_cache is None:
-        data = _call(client, "auth.test")
-        _auth_identity_cache = data.get("user")
-    return _auth_identity_cache
-
-
 def _user_id_by_username(client: httpx.Client, username: str) -> str | None:
     for uid, user in _users(client).items():
         if user.get("name") == username:
@@ -114,11 +107,20 @@ def _user_id_by_username(client: httpx.Client, username: str) -> str | None:
 
 
 def _conversations(client: httpx.Client) -> dict[str, dict]:
+    """Channels (public + private) the bot is actually a member of — no
+    DMs/group-DMs. Uses `users.conversations` (membership-scoped — Slack
+    only enumerates conversations the calling bot/user is actually in)
+    rather than `conversations.list` (which returns *every* public channel
+    in the whole workspace regardless of membership). That mismatch was why
+    scanning "every conversation" burned so much rate-limit budget: most of
+    what conversations.list returned were public channels the bot had never
+    been invited to, so every history call against them failed anyway —
+    just at the cost of a wasted request."""
     global _channel_cache
     if _channel_cache is None:
         convos = _paginate(
-            client, "conversations.list", "channels",
-            types="public_channel,private_channel,mpim,im",
+            client, "users.conversations", "channels",
+            types="public_channel,private_channel",
         )
         _channel_cache = {c["id"]: c for c in convos}
     return _channel_cache
@@ -133,21 +135,14 @@ def _resolve_channel_id(client: httpx.Client, channel_name: str) -> str | None:
 
 def _normalize_message(client: httpx.Client, msg: dict, convo: dict) -> dict:
     mention_ids = _MENTION_RE.findall(msg.get("text", ""))
-    is_im = convo.get("is_im")
-    is_mpim = convo.get("is_mpim")
-    participants = None
-    if is_im:
-        participants = [_username(client, convo.get("user")), _auth_identity(client)]
     return {
         "id": msg.get("client_msg_id") or msg.get("ts"),
         "ts": time_utils.parse_dt(_slack_ts_to_iso(msg["ts"])).isoformat(),
         "user": _username(client, msg.get("user")),
         "text": msg.get("text", ""),
         "mentions": [_username(client, uid) for uid in mention_ids],
-        "channel": convo.get("name") if not (is_im or is_mpim) else None,
+        "channel": convo.get("name"),
         "conversation_id": convo["id"],
-        "type": "im" if is_im else "mpim" if is_mpim else "channel",
-        "participants": participants,
     }
 
 
@@ -180,9 +175,6 @@ def query_messages(
             cid = _resolve_channel_id(client, channel)
             candidate_convos = [_conversations(client)[cid]] if cid else []
         else:
-            # `user` matches either message author or DM participant, both of
-            # which can appear in any conversation, so there's no narrower
-            # candidate set to compute up front — filtered per-message below.
             candidate_convos = list(_conversations(client).values())
 
         out: list[dict] = []
@@ -200,11 +192,8 @@ def query_messages(
                 if msg.get("subtype"):
                     continue
                 normalized = _normalize_message(client, msg, convo)
-                if user:
-                    is_author = normalized["user"] == user
-                    is_dm_participant = normalized["participants"] and user in normalized["participants"]
-                    if not (is_author or is_dm_participant):
-                        continue
+                if user and normalized["user"] != user:
+                    continue
                 if mentions and mentions not in (normalized.get("mentions") or []):
                     continue
                 out.append(normalized)

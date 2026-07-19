@@ -149,7 +149,7 @@ the live tools above):
 | `get_github_pr_detail(pr_id)` | read | Full PR: diff stats, review comments, CI status |
 | `get_github_commits(repo, author, since)` | read | Recent commits, filtered by repo/author/date |
 | `link_jira_to_github(ticket_id, pr_url)` | read | Resolve a ticket to its linked PR(s) via commit-message scan; if `pr_url` is given, also reports whether that specific PR matches |
-| `get_slack_messages(channel, user, mentions, since)` | read | Recent messages/DMs, filtered by channel/user/mentions/date |
+| `get_slack_messages(channel, user, mentions, since)` | read | Recent channel messages (no DMs), filtered by channel/user/mentions/date |
 | `search_slack(query, channel, user, since)` | read | Full-text search via Slack's search API (needs `SLACK_USER_TOKEN`) or a client-side fallback scan |
 | `post_slack_message(channel, message)` | write — gated, disabled by default | Draft a channel post; returns a `pending_action_id` |
 | `get_calendar_events(start_date, end_date, event_type, participant)` | read | Events in a date range (accepts `today`/`this_week`/etc.), filtered by type (best-effort match)/participant |

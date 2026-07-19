@@ -230,8 +230,8 @@ def get_slack_messages(
     mentions: str | None = None,
     since: str | None = None,
 ) -> list[dict]:
-    """Get recent Slack messages, optionally filtered by channel, user (author or DM
-    participant), mentions (username mentioned), or since."""
+    """Get recent Slack channel messages (no DMs), optionally filtered by channel,
+    user (author), mentions (username mentioned), or since."""
     return slack_client.query_messages(channel=channel, user=user, mentions=mentions, since=since)
 
 
@@ -243,8 +243,8 @@ def search_slack(
     user: str | None = None,
     since: str | None = None,
 ) -> list[dict]:
-    """Full-text search over Slack messages and DMs (keyword, optionally scoped by
-    channel, user, or since)."""
+    """Full-text search over Slack channel messages (no DMs), keyword, optionally
+    scoped by channel, user, or since."""
     return slack_client.search_messages(query, channel=channel, user=user, since=since)
 
 
