@@ -51,12 +51,30 @@ def _paginate(client: httpx.Client, url: str, params: dict, items_key: str | Non
     return out
 
 
+_account_type_cache: str | None = None
+
+
+def _account_type(client: httpx.Client) -> str:
+    """"Organization" or "User" — GITHUB_ORG isn't necessarily a GitHub
+    Organization; repos owned by a personal account need different
+    endpoints/search qualifiers (/orgs/... and org: are Organization-only)."""
+    global _account_type_cache
+    if _account_type_cache is None:
+        resp = client.get(f"/users/{settings.github.org}")
+        resp.raise_for_status()
+        _account_type_cache = resp.json().get("type", "Organization")
+    return _account_type_cache
+
+
 def _repos() -> list[str]:
     if settings.github.repos:
         return settings.github.repos
     with _client() as client:
-        orgs_repos = _paginate(client, f"/orgs/{settings.github.org}/repos", {"type": "all"})
-    return [r["name"] for r in orgs_repos]
+        if _account_type(client) == "Organization":
+            items = _paginate(client, f"/orgs/{settings.github.org}/repos", {"type": "all"})
+        else:
+            items = _paginate(client, "/user/repos", {"visibility": "all", "affiliation": "owner"})
+    return [r["name"] for r in items]
 
 
 def build_search_query(
@@ -65,11 +83,16 @@ def build_search_query(
     status: str | None = None,
     repo: str | None = None,
     updated_since: str | None = None,
+    owner_qualifier: str | None = None,
 ) -> str:
-    """Pure function: filter args -> GitHub search-issues query string."""
+    """Pure function: filter args -> GitHub search-issues query string.
+    `owner_qualifier` overrides the default `org:{GITHUB_ORG}` scope (e.g.
+    with `user:{GITHUB_ORG}` for a personal-account owner) — query_prs()
+    resolves the real one via a network call; this stays network-free for
+    unit testing."""
     org = settings.github.org
     qualifiers = ["type:pr"]
-    qualifiers.append(f"repo:{org}/{repo}" if repo else f"org:{org}")
+    qualifiers.append(f"repo:{org}/{repo}" if repo else (owner_qualifier or f"org:{org}"))
     if author:
         qualifiers.append(f"author:{author}")
     if reviewer:
@@ -120,8 +143,14 @@ def query_prs(
     updated_since: str | None = None,
 ) -> list[dict]:
     _require_configured()
-    query = build_search_query(author, reviewer, status, repo, updated_since)
     with _client() as client:
+        owner_qualifier = None
+        if not repo:
+            owner_qualifier = (
+                f"org:{settings.github.org}" if _account_type(client) == "Organization"
+                else f"user:{settings.github.org}"
+            )
+        query = build_search_query(author, reviewer, status, repo, updated_since, owner_qualifier)
         items = _paginate(client, "/search/issues", {"q": query, "sort": "updated"}, items_key="items")
     return [_normalize_search_item(item) for item in items]
 

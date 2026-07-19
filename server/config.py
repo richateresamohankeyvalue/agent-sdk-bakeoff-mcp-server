@@ -40,6 +40,13 @@ class JiraSettings:
     story_points_field: str | None = field(
         default_factory=lambda: os.environ.get("JIRA_STORY_POINTS_FIELD")
     )
+    # Jira Cloud's search endpoint rejects a JQL query with no restricting
+    # clause at all ("Unbounded JQL queries are not allowed") — this backs a
+    # default `updated >=` bound applied only when the caller gave no
+    # filters whatsoever.
+    default_lookback_days: int = field(
+        default_factory=lambda: int(os.environ.get("JIRA_DEFAULT_LOOKBACK_DAYS", "90"))
+    )
 
     @property
     def configured(self) -> bool:
@@ -61,8 +68,11 @@ class GitHubSettings:
 class SlackSettings:
     bot_token: str | None = field(default_factory=lambda: os.environ.get("SLACK_BOT_TOKEN"))
     user_token: str | None = field(default_factory=lambda: os.environ.get("SLACK_USER_TOKEN"))
-    search_lookback_days: int = field(
-        default_factory=lambda: int(os.environ.get("SLACK_SEARCH_LOOKBACK_DAYS", "14"))
+    # How far back to look when a tool call doesn't give a `since` — without
+    # this, an unfiltered call means "every message in every conversation the
+    # bot can see," fetched one full-history page at a time.
+    default_lookback_days: int = field(
+        default_factory=lambda: int(os.environ.get("SLACK_DEFAULT_LOOKBACK_DAYS", "14"))
     )
 
     @property
@@ -77,6 +87,9 @@ class GoogleSettings:
     )
     token_file: str = field(
         default_factory=lambda: os.environ.get("GOOGLE_TOKEN_FILE", "token.json")
+    )
+    gmail_max_threads: int = field(
+        default_factory=lambda: int(os.environ.get("GMAIL_MAX_THREADS", "50"))
     )
 
     @property

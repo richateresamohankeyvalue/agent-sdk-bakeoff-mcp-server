@@ -7,13 +7,18 @@ Known gaps vs. the old mock:
 - `search.messages` (used for real full-text search) requires a *user* token
   with the `search:read` scope — bot tokens can't call it. If SLACK_USER_TOKEN
   isn't set, search_slack() falls back to scanning recent history
-  (SLACK_SEARCH_LOOKBACK_DAYS) and filtering client-side, which is narrower
+  (SLACK_DEFAULT_LOOKBACK_DAYS) and filtering client-side, which is narrower
   than real search.
+- Listing across every conversation the bot can see (no `channel` filter) is
+  one `conversations.history` call per conversation — a workspace with many
+  channels can trip Slack's per-method rate limit in a single tool call;
+  `_call()` retries once on 429 using the `Retry-After` header.
 """
 
 from __future__ import annotations
 
 import re
+import time
 from datetime import timedelta
 from typing import Any
 
@@ -43,7 +48,12 @@ def _client(token: str | None = None) -> httpx.Client:
 def _call(client: httpx.Client, method: str, **params: Any) -> dict:
     # POST (not GET) for every method — required for the state-changing ones
     # (chat.postMessage) and harmless for the read ones.
-    resp = client.post(f"/{method}", data=params)
+    for attempt in range(4):
+        resp = client.post(f"/{method}", data=params)
+        if resp.status_code == 429 and attempt < 3:
+            time.sleep(int(resp.headers.get("Retry-After", "1")))
+            continue
+        break
     resp.raise_for_status()
     data = resp.json()
     if not data.get("ok"):
@@ -155,9 +165,15 @@ def query_messages(
 ) -> list[dict]:
     _require_configured()
     with _client() as client:
-        oldest = None
+        # Without a `since`, "every conversation" would otherwise mean
+        # fetching each one's *entire* history — default to a bounded
+        # lookback instead (same reasoning as Gmail's thread cap).
         if since:
-            oldest = str(time_utils.resolve_since(since).timestamp())
+            bound = time_utils.resolve_since(since)
+        else:
+            bound = time_utils.get_today() - timedelta(days=settings.slack.default_lookback_days)
+            bound = time_utils.resolve_since(bound.isoformat())
+        oldest = str(bound.timestamp())
 
         candidate_convos: list[dict]
         if channel:
@@ -219,14 +235,10 @@ def search_messages(
             }
             for m in data.get("messages", {}).get("matches", [])
         ]
-    # Fallback: no user token, so no real full-text search available —
-    # scan recent history and filter client-side (narrower than real search).
-    if since:
-        effective_since = since
-    else:
-        bound_date = time_utils.get_today() - timedelta(days=settings.slack.search_lookback_days)
-        effective_since = bound_date.isoformat()
-    results = query_messages(channel=channel, user=user, since=effective_since)
+    # Fallback: no user token, so no real full-text search available — scan
+    # recent history and filter client-side (narrower than real search).
+    # query_messages() already applies the default lookback when since=None.
+    results = query_messages(channel=channel, user=user, since=since)
     needle = query.lower()
     return [m for m in results if needle in m["text"].lower()]
 

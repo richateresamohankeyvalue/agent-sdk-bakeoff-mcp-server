@@ -19,6 +19,7 @@ from googleapiclient.discovery import build as build_service
 from googleapiclient.errors import HttpError
 
 from .. import time_utils
+from ..config import settings
 from .google_auth import get_credentials
 
 _label_cache: dict[str, str] | None = None
@@ -130,14 +131,19 @@ def query_threads(
     service = _service()
     query = build_query(sender, subject_contains, label, unread, since)
     label_map = _labels(service)
+    cap = settings.google.gmail_max_threads
 
+    # Gmail returns threads newest-first by default, so capping here keeps
+    # the most recent ones — but an unfiltered call (query="") still means
+    # "every thread in the mailbox," so without a cap this would fetch full
+    # message content for the entire account, one API call per thread.
     thread_ids: list[str] = []
     page_token = None
-    while True:
+    while len(thread_ids) < cap:
         resp = (
             service.users()
             .threads()
-            .list(userId="me", q=query or None, pageToken=page_token, maxResults=100)
+            .list(userId="me", q=query or None, pageToken=page_token, maxResults=min(100, cap - len(thread_ids)))
             .execute()
         )
         thread_ids.extend(t["id"] for t in resp.get("threads", []))
@@ -146,7 +152,7 @@ def query_threads(
             break
 
     threads = []
-    for tid in thread_ids:
+    for tid in thread_ids[:cap]:
         detail = service.users().threads().get(userId="me", id=tid, format="full").execute()
         threads.append(_normalize_thread(detail, label_map))
     return sorted(threads, key=lambda t: t["date"] or "", reverse=True)

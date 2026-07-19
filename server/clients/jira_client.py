@@ -15,13 +15,14 @@ name) — set JIRA_SPRINT_FIELD / JIRA_STORY_POINTS_FIELD (see
 
 from __future__ import annotations
 
+from datetime import timedelta
 from typing import Any
 
 import httpx
 
 from .. import time_utils
 from ..config import settings
-from .errors import NotConfiguredError, from_exception
+from .errors import NotConfiguredError
 
 JQL_SEARCH_PATH = "/rest/api/3/search/jql"
 
@@ -71,7 +72,12 @@ def build_jql(
     if updated_since:
         bound = time_utils.resolve_since(updated_since)
         clauses.append(f"updated >= {_jql_quote(bound.strftime('%Y-%m-%d %H:%M'))}")
-    return " AND ".join(clauses) if clauses else "order by updated desc"
+    if not clauses:
+        # Jira Cloud rejects a query with no restricting clause at all —
+        # default to a bounded lookback rather than "order by" alone.
+        bound = time_utils.get_today() - timedelta(days=settings.jira.default_lookback_days)
+        clauses.append(f"updated >= {_jql_quote(bound.isoformat())}")
+    return " AND ".join(clauses) + " order by updated desc"
 
 
 def _adf_to_text(node: Any) -> str:

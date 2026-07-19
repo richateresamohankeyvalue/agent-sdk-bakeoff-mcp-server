@@ -6,18 +6,13 @@ errors.
 
 from __future__ import annotations
 
+import functools
+
 import httpx
 
 
 class NotConfiguredError(Exception):
     """Raised by a client when the env vars it needs aren't set."""
-
-
-def not_configured(integration: str, missing: list[str]) -> dict:
-    return {
-        "error": f"{integration} is not configured (missing: {', '.join(missing)})",
-        "found": False,
-    }
 
 
 def from_exception(exc: Exception, integration: str) -> dict:
@@ -32,3 +27,21 @@ def from_exception(exc: Exception, integration: str) -> dict:
     if isinstance(exc, httpx.RequestError):
         return {"error": f"{integration} request failed: {exc}", "found": False}
     return {"error": f"{integration} error: {exc}", "found": False}
+
+
+def guarded(integration: str):
+    """Decorator for @mcp.tool() functions: turns any exception raised by a
+    client call into the same structured error dict from_exception() would
+    produce, instead of letting it surface as an opaque MCP tool error."""
+
+    def decorator(fn):
+        @functools.wraps(fn)
+        def wrapper(*args, **kwargs):
+            try:
+                return fn(*args, **kwargs)
+            except Exception as exc:
+                return from_exception(exc, integration)
+
+        return wrapper
+
+    return decorator
