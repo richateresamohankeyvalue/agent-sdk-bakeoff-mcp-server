@@ -118,25 +118,12 @@ Docker reads the same `.env` as local runs (`env_file: .env` in `docker-compose.
 mounts `token.json` read-only so the Google OAuth token from `scripts/google_auth_setup.py` is
 visible in the container.
 
-**Connect an agent SDK to it** (example: Claude Agent SDK / Claude Code):
+**To connect an agent SDK to it** (example: Claude Agent SDK / Claude Code):
 
 ```json
 mcpServers: {"pulse-assistant": {"type": "sse", "url": "http://localhost:8081/sse"}}
 ```
 
-Or run it locally without Docker, over stdio (single SDK spawns it directly):
-```bash
-uv run pulse-assistant-mcp
-# mcpServers config: {"command": "uv", "args": ["--directory", "/path/to/repo", "run", "pulse-assistant-mcp"]}
-```
-
-**Legacy mock-dataset viewer** (browses the old frozen fixtures in `data/*.json`, unrelated to
-the live tools above):
-
-```bash
-./viewer/serve.sh
-# then open http://localhost:8765/viewer/ in a browser
-```
 
 ## 3. Tools
 
