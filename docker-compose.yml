@@ -4,13 +4,15 @@ services:
     container_name: pulse-assistant-mcp-server
     ports:
       - "${MCP_PORT:-8081}:${MCP_PORT:-8081}"
+    env_file:
+      - .env
     environment:
       MCP_TRANSPORT: "${MCP_TRANSPORT:-sse}"
       MCP_HOST: "0.0.0.0"
       MCP_PORT: "${MCP_PORT:-8081}"
       MCP_ALLOWED_HOSTS: "${MCP_ALLOWED_HOSTS:-}"
     volumes:
-      # Read-write: host-side edits show up live (hot-reload), and confirmed
-      # writes from the server persist back to these files, visible on the host.
-      - ./data:/app/data
+      # Google's OAuth token (written once by scripts/google_auth_setup.py on
+      # the host) needs to be visible to the container too.
+      - ./token.json:/app/token.json:ro
     restart: unless-stopped

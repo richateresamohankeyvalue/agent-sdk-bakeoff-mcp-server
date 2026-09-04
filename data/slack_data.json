@@ -791,6 +791,188 @@
           "mentions": []
         }
       ]
+    },
+    {
+      "id": "conv_runtime_31",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_4",
+          "user": "aisha.khan",
+          "text": "testing golden task suite",
+          "ts": "2025-06-18T00:29:17+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_32",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_5",
+          "user": "aisha.khan",
+          "text": "golden task regression check",
+          "ts": "2025-06-18T00:29:34+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_33",
+      "type": "channel",
+      "channel": "standup",
+      "messages": [
+        {
+          "id": "msg_runtime_6",
+          "user": "aisha.khan",
+          "text": "**Yesterday**\n- Merged PROJ-118 (notification refactor) and kicked off INFRA-56 (API gateway rate limiting).\n- Repro'd and started investigating BUG-207 (Safari chart rendering bug \u2014 canvas width 0 on first paint).\n- Got review feedback from Marcus on PROJ-101 (SSO login) around token refresh handling.\n\n**Today**\n- Shipped a fix for BUG-207 \u2014 PR #143 (pulse-web) is up with a regression test, approved by Rahul, CI passing.\n- Addressing PROJ-101 review comments: fixing refresh-token invalidation and looking into the flaky `test_token_refresh_rotation` CI test (PR #136, changes requested).\n- Kicking off PROJ-125 (CSV export) \u2014 streaming export endpoint work starts in today's focus block.\n- Reviewing devon.brooks' pulse-infra#63 (connection pooling, BUG-199 incident fix) after standup, plus attending the BUG-199 status check and INFRA-63 code review session.\n- Sprint 15 planning this afternoon (scoping PROJ-140/141, BUG-199/INFRA-56 carryover).\n\n**Blockers**\n- INFRA-56: rate limiter PR #64 has failing CI and is awaiting review; per Devon's comment it's blocking his INFRA-64 read-replica rollout and Rahul's load testing, pending infra change approval.\n- PROJ-101: PR #136 blocked on changes requested (token refresh fix + flaky test), with Sarah pushing for merge by Thursday EOD ahead of Friday's client demo.\n- No other blockers reported.",
+          "ts": "2025-06-18T00:32:55+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_34",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_7",
+          "user": "aisha.khan",
+          "text": "testing golden task suite",
+          "ts": "2025-06-18T00:33:55+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_35",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_8",
+          "user": "aisha.khan",
+          "text": "golden task regression check",
+          "ts": "2025-06-18T00:34:06+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_36",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_9",
+          "user": "aisha.khan",
+          "text": "golden task regression check",
+          "ts": "2025-06-18T00:35:59+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_37",
+      "type": "channel",
+      "channel": "standup",
+      "messages": [
+        {
+          "id": "msg_runtime_10",
+          "user": "aisha.khan",
+          "text": "**Yesterday**\n- Merged PROJ-118 (notification refactor); kicked off INFRA-56 (API gateway rate limiting).\n- Repro'd BUG-207 (Safari chart rendering \u2014 canvas width 0 on first paint).\n- Got review feedback from Marcus on PROJ-101 (SSO login) around token refresh handling.\n\n**Today**\n- Shipped fix for BUG-207 \u2014 PR #143 (pulse-web) approved by Rahul, CI passing.\n- Addressing PROJ-101 review comments: fixing refresh-token invalidation and the flaky `test_token_refresh_rotation` test (PR #136).\n- Starting PROJ-125 (CSV export) \u2014 streaming export endpoint, in focus block today.\n- Reviewing devon.brooks' pulse-infra#63 (connection pooling, BUG-199 fix) post-standup, plus attending the BUG-199 status check and INFRA-63 code review session.\n- Sprint 15 planning this afternoon (scoping PROJ-140/141, BUG-199/INFRA-56 carryover).\n\n**Blockers**\n- INFRA-56: rate limiter PR #64 has failing CI and is awaiting review \u2014 per Devon, this is blocking his INFRA-64 read-replica rollout and Rahul's load testing, pending infra change approval.\n- PROJ-101: PR #136 blocked on changes requested (token refresh fix + flaky test); Sarah is pushing for a merge by Thursday EOD ahead of Friday's client demo.",
+          "ts": "2025-06-18T00:37:58+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_38",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_11",
+          "user": "aisha.khan",
+          "text": "testing golden task suite",
+          "ts": "2025-06-18T00:38:55+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_39",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_12",
+          "user": "aisha.khan",
+          "text": "golden task regression check",
+          "ts": "2025-06-18T00:39:04+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_40",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_13",
+          "user": "aisha.khan",
+          "text": "golden task regression check",
+          "ts": "2025-06-18T00:40:13+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_41",
+      "type": "channel",
+      "channel": "standup",
+      "messages": [
+        {
+          "id": "msg_runtime_14",
+          "user": "aisha.khan",
+          "text": "**Standup \u2014 Aisha Khan (Backend, Platform)**\n\n**Yesterday**\n- Merged PROJ-118 (notification refactor, PR #134) and kicked off INFRA-56 (API gateway rate limiting).\n- Reproduced BUG-207 (Safari chart rendering \u2014 canvas width 0 on first paint).\n- Got review feedback from Marcus on PROJ-101 (SSO login, PR #136) around token refresh handling.\n\n**Today**\n- Shipped the BUG-207 fix \u2014 PR #143 (pulse-web) has a regression test, approved by Rahul, CI passing.\n- Working through PROJ-101 review comments: fixing refresh-token invalidation and the flaky `test_token_refresh_rotation` test (PR #136).\n- Kicked off PROJ-125 (CSV export) \u2014 starting the streaming export endpoint in today's focus block.\n- Reviewing Devon's connection-pooling PR (#63, INFRA-63) for the BUG-199 incident, plus attending the BUG-199 status check and INFRA-63 code review session.\n- Sprint 15 planning this afternoon \u2014 scoping PROJ-140/141 and carryover from BUG-199/INFRA-56.\n\n**Blockers**\n- INFRA-56: rate limiter PR #64 has failing CI and is awaiting review; per Devon, this is blocking his INFRA-64 read-replica rollout and Rahul's load testing.\n- PROJ-101: PR #136 is blocked on changes requested (token refresh fix + flaky test); Sarah is pushing for a merge by Thursday EOD ahead of Friday's client demo.",
+          "ts": "2025-06-18T00:42:15+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_42",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_15",
+          "user": "aisha.khan",
+          "text": "testing golden task suite",
+          "ts": "2025-06-18T00:43:11+05:30",
+          "mentions": []
+        }
+      ]
+    },
+    {
+      "id": "conv_runtime_43",
+      "type": "channel",
+      "channel": "#standup",
+      "messages": [
+        {
+          "id": "msg_runtime_16",
+          "user": "aisha.khan",
+          "text": "golden task regression check",
+          "ts": "2025-06-18T00:43:20+05:30",
+          "mentions": []
+        }
+      ]
     }
   ]
 }

@@ -1,7 +1,8 @@
 """Resolves the symbolic time expressions used throughout the tool set
-("today", "yesterday", "this_week", ...) against the dataset's frozen
-reference date in data/meta.json, so the mock data stays reproducible
-regardless of when the harness actually runs.
+("today", "yesterday", "this_week", ...) against the real wall-clock date,
+now that every tool hits a live API instead of a frozen mock dataset.
+`set_reference_today()` still lets tests (or a task harness) pin "today" to
+a fixed date.
 """
 
 from __future__ import annotations
@@ -24,10 +25,12 @@ def set_reference_today(value: date | str | None) -> None:
         _reference_today = date.fromisoformat(value)
 
 
-def get_today(default_today: str) -> date:
+def get_today(default_today: str | None = None) -> date:
     if _reference_today is not None:
         return _reference_today
-    return date.fromisoformat(default_today)
+    if default_today:
+        return date.fromisoformat(default_today)
+    return datetime.now(DEFAULT_TZ).date()
 
 
 def _start_of_day(d: date) -> datetime:
@@ -44,7 +47,7 @@ def week_bounds(today: date) -> tuple[date, date]:
     return monday, sunday
 
 
-def resolve_date(value: str | None, today_str: str, bound: str = "start") -> date | None:
+def resolve_date(value: str | None, today_str: str | None = None, bound: str = "start") -> date | None:
     """Resolves a single date-ish token: 'today'/'yesterday'/'tomorrow', an ISO date,
     or a week keyword ('this_week'/'next_week'/'last_week') — for week keywords,
     `bound` picks the Monday ('start') or Sunday ('end') of that week."""
@@ -65,7 +68,7 @@ def resolve_date(value: str | None, today_str: str, bound: str = "start") -> dat
     return date.fromisoformat(value)
 
 
-def resolve_since(value: str | None, today_str: str) -> datetime | None:
+def resolve_since(value: str | None, today_str: str | None = None) -> datetime | None:
     """Resolves a 'since' filter to an inclusive lower-bound datetime."""
     if value is None:
         return None
@@ -92,7 +95,7 @@ def resolve_since(value: str | None, today_str: str) -> datetime | None:
     return dt
 
 
-def resolve_range(value: str | None, today_str: str) -> tuple[date, date] | None:
+def resolve_range(value: str | None, today_str: str | None = None) -> tuple[date, date] | None:
     """Resolves a symbolic range keyword ('this_week', 'today', ...) to (start, end) dates."""
     if value is None:
         return None
